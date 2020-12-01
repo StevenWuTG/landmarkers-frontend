@@ -8,22 +8,41 @@
 
 .title-bar {
   grid-area: 1 / 2 / 3 / 10;
+  padding: 3 px;
+  margin: 10px 0px;
+
+  border: 2px solid black ;
   /* text-align: center; */
 }
 .favorite-bar {
   grid-area: 3 / 1 / 10 / 3;
+  padding: 3 px;
+  margin: 10px 0px;
+  border: 2px solid black ;
 }
 .hometown-bar {
   grid-area: 3 / 4 / 4 / 8;
+  padding: 3 px;
+  margin: 10px 0px;
+  border: 2px solid black ;
 }
 .landmark-bar {
   grid-area: 4 / 3 / 8 / 9;
+  padding: 3 px;
+  margin: 10px 0px;
+  border: 2px solid black ;
 }
 .landmark-info {
   grid-area: 8 / 3 / 11 / 9;
+  padding: 3 px;
+  margin: 10px 0px;
+  border: 2px solid black ;
 }
 .landmark-form {
   grid-area: 3 / 9 / 10 / 11;
+  padding: 3 px;
+  margin: 10px 0px;
+  border: 2px solid black ;
 }
 
 .sign-in-bar {
@@ -44,4 +63,12 @@
 
 .white-background{
   background-color: white;
+}
+
+.container {
+  display: flex; 
+  flex-flow: row wrap;
+  justify-content: space-around;
+  max-width: 70%;
+  margin: 0px auto;
 }
