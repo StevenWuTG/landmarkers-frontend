@@ -1,0 +1,47 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+}
+
+.title-bar {
+  grid-area: 1 / 2 / 3 / 10;
+  /* text-align: center; */
+}
+.favorite-bar {
+  grid-area: 3 / 1 / 10 / 3;
+}
+.hometown-bar {
+  grid-area: 3 / 4 / 4 / 8;
+}
+.landmark-bar {
+  grid-area: 4 / 3 / 8 / 9;
+}
+.landmark-info {
+  grid-area: 8 / 3 / 11 / 9;
+}
+.landmark-form {
+  grid-area: 3 / 9 / 10 / 11;
+}
+
+.sign-in-bar {
+  grid-area: 3 / 1 / 11 / 11;
+}
+
+.sign-in-2 { grid-area: 5 / 4 / 7 / 8; }
+
+.center {
+  width: 50%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.black-background{
+  background-color: black;
+}
+
+.white-background{
+  background-color: white;
+}
