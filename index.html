@@ -26,14 +26,16 @@
             List of landmarks
             
         </div>
-        <div class = "landmark-info center"> 
+        <div class = "landmark-info center" hidden="true"> 
             <h3>landmark info</h3>
-            <p>test</p>
-            <p>test</p>
-            <p>test</p>
+            Name: <div id="landmark-name"></div>
+            Address: <div id="landmark-address"></div>
+            Bio: <div id="landmark-bio"></div>
+            Genre: <div id="landmark-genre"></div>
         </div>
         <form class = "landmark-form center"> 
             <h3>Landmark Form</h3>
+            <input type="text" hidden="true" name="user_id">
             Name:<input type="text" name="name">
             Address:<input type="text" name="address">
             Image:<input type="text" name="image">
