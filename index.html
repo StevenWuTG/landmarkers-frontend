@@ -16,15 +16,15 @@
         <div class = "title-bar center"> 
             <h1>Landmarkers</h1>
         </div>
-        <div class = "landmark-bar center"> 
+        <div class = "landmark-bar center" hidden="true"> 
             <h5>List of landmarks</h5>
         </div>
-        <div class = "hometown-bar center"> 
+        <div class = "hometown-bar center" hidden="true"> 
 
             <!-- <button id="user-button" class="center">Users</button> -->
             <!-- <h3>Hometown</h3> -->
         </div>
-        <div class = "image-box center"> 
+        <div class = "image-box center" hidden="true"> 
             
             
         </div>
@@ -35,7 +35,7 @@
             Bio: <div id="landmark-bio"></div>
             Genre: <div id="landmark-genre"></div>
         </div>
-        <form class = "landmark-form center"> 
+        <form class = "landmark-form center" hidden="true"> 
             <h3>Landmark Form</h3>
             <input type="text" hidden="true" name="user_id">
             Name:<input type="text" name="name">
@@ -46,23 +46,28 @@
             <button id="landmark-submit" type="submit">Submit</button>
         </form>
 
-        <div class ="sign-in-bar black-background">
-            <form class="sign-in-2 white-background center">
+        <div class ="sign-in-bar">
+            <div class="sign-in-2 white-background center">
                 <!-- v1  -->
-                <!-- <h3>login</h3><br>
-                Name:<input id="login-input" type="text"><br>
-                Hometown:<input id="hometown-input" type="text"><br>
-                Image:<input id="image-input" type="text"><br>
-                Bio:<input id="bio-input" type="text"><br>
-                <button id="login-button">login</button> -->
+                <form id="new-user-form" hidden="true">
+                    <h3>Create New User</h3><br>
+                    Username:<input id="new-login-input" name="username" type="text"><br>
+                    Hometown:<input id="new-hometown-input" name="hometown" type="text"><br>
+                    Image:<input id="new-image-input" name="img_url" type="text"><br>
+                    Bio:<input id="new-bio-input" name="bio" type="text"><br>
+                    <button type="submit">Sign Up</button>
+                </form>
 
-                <h3>Login</h3>
-                Name:<input id="login-input" type="text"><br>
-                <button id="login-button">login</button> 
+                <form id="login-form">
+                    <h3>Login</h3>
+                    Username:<input id="login-input" name="username" type="text"><br>
+                    <button id="login-button" type="submit">login</button> 
+                </form>
 
-            </form>
+            </div>
             
         </div>
+
         
         
        

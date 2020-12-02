@@ -19,7 +19,7 @@ const imgBox = document.querySelector(".image-box")
 const signInBar2 = document.querySelector(".sign-in-2")
 const signInBar = document.querySelector(".sign-in-bar")
 const loginInput = document.querySelector("#login-input")
-const hometownInput = document.querySelector("#hometown-input")
+
 // DOM SLAPPAGE
 
 // FETCHES
@@ -36,19 +36,19 @@ const hometownInput = document.querySelector("#hometown-input")
 
 function fetchUserLandmarks(user) {
     fetch(`http://localhost:3000/api/v1/users/${user}`)
-    .then(resp => resp.json())
-    .then(userObj => {
-        currentUserObj = userObj
-        renderLandmarks(userObj.landmarks)
-    })
+        .then(resp => resp.json())
+        .then(userObj => {
+            currentUserObj = userObj
+            renderLandmarks(userObj.landmarks)
+        })
 }
 
-function fetchAllLandmarks () {
+function fetchAllLandmarks() {
     fetch(`http://localhost:3000/api/v1/landmarks`)
-    .then(resp => resp.json())
-    .then(landmarkArr => {
-        renderAllLandmarks(landmarkArr)
-    })
+        .then(resp => resp.json())
+        .then(landmarkArr => {
+            renderAllLandmarks(landmarkArr)
+        })
 }
 
 
@@ -56,7 +56,12 @@ function fetchAllLandmarks () {
 function setCurrentUser(userObj) {
     signInBar.hidden = true
     signInBar2.hidden = true
-    
+
+    landmarkBar.hidden = false
+    imgBox.hidden = false
+    landmarkForm.hidden = false
+    hometownDiv.hidden = false
+
     const h3 = document.createElement("h3")
     h3.textContent = userObj.hometown
 
@@ -73,14 +78,14 @@ function renderLandmarks(landmarksArray) {
     landmarkBar.append(h5)
 
     landmarksArray.forEach(landmark => {
-      const li = document.createElement("li")
-      li.textContent = landmark.name
-      li.dataset.id = landmark.id
-      landmarkBar.append(li)
+        const li = document.createElement("li")
+        li.textContent = landmark.name
+        li.dataset.id = landmark.id
+        landmarkBar.append(li)
     })
 }
 
-function renderLandmarkInfo (id) {
+function renderLandmarkInfo(id) {
     landmarkInfo.hidden = false
     const name = document.querySelector("#landmark-name")
     const address = document.querySelector("#landmark-address")
@@ -91,15 +96,15 @@ function renderLandmarkInfo (id) {
 
 
     fetch(`http://localhost:3000/api/v1/landmarks/${id}`)
-    .then(resp => resp.json())
-    .then(landmarkObj => {
-        name.textContent = landmarkObj.name
-        address.textContent = landmarkObj.address
-        bio.textContent = landmarkObj.bio
-        genre.textContent = landmarkObj.genre
-        img.src = landmarkObj.img_url
-        img.alt = landmarkObj.name
-    })
+        .then(resp => resp.json())
+        .then(landmarkObj => {
+            name.textContent = landmarkObj.name
+            address.textContent = landmarkObj.address
+            bio.textContent = landmarkObj.bio
+            genre.textContent = landmarkObj.genre
+            img.src = landmarkObj.img_url
+            img.alt = landmarkObj.name
+        })
     imgBox.innerHTML = ""
     imgBox.append(img)
 }
@@ -112,10 +117,10 @@ function renderAllLandmarks(allLandmarks) {
     landmarkBar.append(h5)
 
     allLandmarks.forEach(landmark => {
-      const li = document.createElement("li")
-      li.textContent = landmark.name
-      li.dataset.id = landmark.id
-      landmarkBar.append(li)
+        const li = document.createElement("li")
+        li.textContent = landmark.name
+        li.dataset.id = landmark.id
+        landmarkBar.append(li)
     })
 
 }
@@ -123,15 +128,16 @@ function renderAllLandmarks(allLandmarks) {
 
 
 // EVENT LISTENERS
-landmarkBar.addEventListener("click", function(e) {
+landmarkBar.addEventListener("click", function (e) {
     if (e.target.tagName === "LI") {
         // debugger
         renderLandmarkInfo(parseInt(e.target.dataset.id))
     }
 })
 
-landmarkForm.addEventListener("submit", function(e) {
+landmarkForm.addEventListener("submit", function (e) {
     e.preventDefault()
+
     const newLandmark = {
         user_id: parseInt(currentUserId),
         name: e.target.name.value,
@@ -148,21 +154,21 @@ landmarkForm.addEventListener("submit", function(e) {
         },
         body: JSON.stringify(newLandmark)
     })
-    .then(resp => resp.json())
-    .then(newLandmarkobj => {
-        // renderLandmarks(newLandmark)
-        // debugger
-        if (newLandmarkobj.error) {
-            console.log(`${newLandmarkobj.exception}`)
-            
-        }
-        else if (newLandmarkobj.name === newLandmark.name) {
-            // console.log("success")
-            // console.log(newLandmarkobj)
-            fetchUserLandmarks(currentUserId)
-        }
-    })
-    .catch(error => console.log(error))
+        .then(resp => resp.json())
+        .then(newLandmarkobj => {
+            // renderLandmarks(newLandmark)
+            // debugger
+            if (newLandmarkobj.error) {
+                console.log(`${newLandmarkobj.exception}`)
+
+            }
+            else if (newLandmarkobj.name === newLandmark.name) {
+                // console.log("success")
+                // console.log(newLandmarkobj)
+                fetchUserLandmarks(currentUserId)
+            }
+        })
+        .catch(error => console.log(error))
     // debuggers
 
 })
@@ -179,17 +185,17 @@ landmarkForm.addEventListener("submit", function(e) {
 //     // signInBar.classList.remove("black-background")
 //     // signInBar2.innerHTML = ""
 //     hometownDiv.innerHTML = `<h3> ${currentHometown}</h3>`
-    
+
 //     const button2 = document.createElement("button")
 //     button2.textContent = "All Landmarks"
 //     button2.classList.add("center")
 //     button2.id = "landmarks-button"
-    
+
 //     const button1 = document.createElement("button")
 //     button1.textContent = "My Landmarks"
 //     button1.classList.add("center")
 //     button1.id = "my-button"
-    
+
 //     hometownDiv.append(button2,button1) 
 
 //     const newUser = {
@@ -219,92 +225,130 @@ landmarkForm.addEventListener("submit", function(e) {
 // })
 
 // v2
-signInBar2.addEventListener("submit", function (e) {
-        e.preventDefault()
-        
-    
-        
-        currentUser = loginInput.value
-        
-        debugger
-        fetch("http://localhost:3000/api/v1/users")
+const loginInForm = document.querySelector("#login-form")
+const signupForm = document.querySelector("#new-user-form")
+loginInForm.addEventListener("submit", function (e) {
+    e.preventDefault()
+
+
+
+    currentUser = loginInput.value
+
+    // debugger
+    fetch("http://localhost:3000/api/v1/users")
         .then(resp => resp.json())
         .then(usersArr => {
-            // debugger
             usersArr.forEach(user => {
-                if(user.username === currentUser){
-                    setCurrentUser(user)
-                    renderLandmarks(user.landmarks)
+                if (user.username === currentUser) {
+                    currentUser = user
                 }
-                else {
-                    
-                    //     <!-- <h3>login</h3><br>
-                    // Name:<input id="login-input" type="text"><br>
-                    // Hometown:<input id="hometown-input" type="text"><br>
-                    // Image:<input id="image-input" type="text"><br>
-                    // Bio:<input id="bio-input" type="text"><br>
-                    // <button id="login-button">login</button> --></br>
-                    
-                    
-                    const h3 = document.createElement('h3')
-                    h3.textContent = "Create User Form"
-                    
-                    const nameInput = document.createElement("input")
-                    nameInput.id = "login-input"
-                    nameInput.value = "Name"
-                    
-                    const homeTownInput = document.createElement("input")
-                    homeTownInput.id = "hometown-input"
-                    homeTownInput.value = "Hometown"
-                    
-                    const imageInput = document.createElement("input")
-                    imageInput.id = "image-input"
-                    imageInput.value = "Image Url"
-                    
-                    const bioInput = document.createElement("input")
-                    bioInput.id = "bio-input"
-                    bioInput.value = "Bio"
-                    
-                    signInBar2.innerHTML= ""
-                    signInBar2.append( h3, nameInput, hometownInput, imageInput, bioInput )
-                }
-                
-            });
+            })
+            // debugger
+
+            if (usersArr.find(user => user.username === currentUser.username)) {
+                setCurrentUser(currentUser)
+                renderLandmarks(currentUser.landmarks)
+            }
+            else {
+                loginInForm.hidden = true
+                signupForm.hidden = false
+
+
+
+            }
+
+
+            // debugger
+            // usersArr.forEach(user => {
+            //     if (user.username === currentUser) {
+            //         setCurrentUser(user)
+            //         renderLandmarks(user.landmarks)
+            //     }
+            //     else {
+            //         const div = document.createElement("div")
+            //         div.classList.add("signup-form")
+            //         div.innerHTML = `
+            //         <h3>Create User Form</h3><br>
+            //         Username:<input id="login-input" name="username" type="text"><br>
+            //         Hometown:<input id="hometown-input" name="hometown" type="text"><br>
+            //         Image:<input id="image-input" name="img_url" type="text"><br>
+            //         Bio:<input id="bio-input" name="bio" type="text"><br>
+            //         <button id="signup-button">Sign Up</button></br>
+            //         `
+            //         signInBar2.append(div)
+            //         const nameInput = document.querySelector("#login-input")
+            //         nameInput.value = currentUser
+
+            //         div.addEventListener("submit", handleSignup)
+
+            //         // signInBar2.append( h3, nameInput, hometownInput, imageInput, bioInput )
+            //     }
+
+            // });
         })
         .catch(error => console.log(error))
 
-        // NEED TO MAKE INTO NEW FUNCTION 
-        const button2 = document.createElement("button")
-        button2.textContent = "All Landmarks"
-        button2.classList.add("center")
-        button2.id = "landmarks-button"
-        
-        const button1 = document.createElement("button")
-        button1.textContent = "My Landmarks"
-        button1.classList.add("center")
-        button1.id = "my-button"
-        
-        hometownDiv.append(button2,button1) 
-        // -//
+    // NEED TO MAKE INTO NEW FUNCTION 
+    const button2 = document.createElement("button")
+    button2.textContent = "All Landmarks"
+    button2.classList.add("center")
+    button2.id = "landmarks-button"
 
+    const button1 = document.createElement("button")
+    button1.textContent = "My Landmarks"
+    button1.classList.add("center")
+    button1.id = "my-button"
+
+    hometownDiv.append(button2, button1)
+    // -//
+
+})
+
+signupForm.addEventListener("submit", function (e) {
+    e.preventDefault()
+
+    const newUser = {
+        username: e.target.username.value,
+        hometown: e.target.hometown.value,
+        img_url: e.target.img_url.value,
+        bio: e.target.bio.value
+    }
+    fetch("http://localhost:3000/api/v1/users", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newUser)
     })
+        .then(resp => resp.json())
+        .then(newUserObj => {
+            // debugger
+            if (newUserObj.username === currentUser) {
+                setCurrentUser(newUserObj)
+            }
+            else if (newUserObj.error === "Unprocessable Entity") {
+                alert("Username already exists!")
+            }
+        })
+        .catch(error => console.log(error))
+})
 
-    
 
-hometownDiv.addEventListener("click", function(e) {
+
+hometownDiv.addEventListener("click", function (e) {
     e.preventDefault()
     if (e.target.id === "landmarks-button") {
         fetchAllLandmarks()
     }
-    else if (e.target.id === "my-button"){
+    else if (e.target.id === "my-button") {
         fetchUserLandmarks(currentUserId)
     }
 })
 
-imgBox.addEventListener("click", function(e) {
+imgBox.addEventListener("click", function (e) {
     e.preventDefault()
 
-    if (e.target.tagName === "li"){
+    if (e.target.tagName === "li") {
 
     }
 })
