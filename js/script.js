@@ -55,6 +55,9 @@ function fetchAllLandmarks () {
 
 // RENDER FUNCTIONS
 function setCurrentUser(newUserObj) {
+    signInBar.hidden = true
+    signInBar2.hidden = true
+    
     currentHometown = newUserObj.hometown
     currentUser = newUserObj.username
     currentUserId = newUserObj.id
@@ -130,8 +133,6 @@ signInBar2.addEventListener("submit", function (e) {
     const bioInput = document.querySelector("#bio-input")
 
     // debugger
-    signInBar.hidden = true
-    signInBar2.hidden = true
     currentUser = loginInput.value
     currentHometown = hometownInput.value
     // signInBar.classList.remove("black-background")
@@ -152,7 +153,13 @@ signInBar2.addEventListener("submit", function (e) {
     })
     .then(resp => resp.json())
     .then(newUserObj => {
-        setCurrentUser(newUserObj)
+        // debugger
+        if (newUserObj.username === currentUser) {
+            setCurrentUser(newUserObj)
+        }
+        else if (newUserObj.error === "Unprocessable Entity") {
+            alert("Username already exists!")
+        }
     })
     .catch(error => console.log(error))
 })
