@@ -12,6 +12,7 @@ const loginBtn = document.querySelector("#login-button")
 const hometownDiv = document.querySelector(".hometown-bar")
 const landmarkForm = document.querySelector(".landmark-form")
 const landmarkInfo = document.querySelector(".landmark-info")
+const imgBox = document.querySelector(".image-box")
 
 const signInBar2 = document.querySelector(".sign-in-2")
 const signInBar = document.querySelector(".sign-in-bar")
@@ -64,6 +65,11 @@ function setCurrentUser(newUserObj) {
 }
 
 function renderLandmarks(landmarksArray) {
+    landmarkBar.innerHTML = ""
+    const h5 = document.createElement("h5")
+    h5.textContent = "List of landmarks"
+    landmarkBar.append(h5)
+
     landmarksArray.forEach(landmark => {
       const li = document.createElement("li")
       li.textContent = landmark.name
@@ -78,6 +84,9 @@ function renderLandmarkInfo (id) {
     const address = document.querySelector("#landmark-address")
     const bio = document.querySelector("#landmark-bio")
     const genre = document.querySelector("#landmark-genre")
+    const img = document.createElement("img")
+    img.classList.add("landmark-image")
+
 
     fetch(`http://localhost:3000/api/v1/landmarks/${id}`)
     .then(resp => resp.json())
@@ -86,7 +95,13 @@ function renderLandmarkInfo (id) {
         address.textContent = landmarkObj.address
         bio.textContent = landmarkObj.bio
         genre.textContent = landmarkObj.genre
+        img.src = landmarkObj.img_url
+        img.alt = landmarkObj.name
     })
+
+    imgBox.innerHTML = ""
+    imgBox.append(img)
+
 
 }
 
@@ -117,13 +132,21 @@ landmarkForm.addEventListener("submit", function(e) {
         body: JSON.stringify(newLandmark)
     })
     .then(resp => resp.json())
-    .then(newLandmark => {
+    .then(newLandmarkobj => {
         // renderLandmarks(newLandmark)
-        console.log(newLandmark)
+        // debugger
+        if (newLandmarkobj.error) {
+            console.log(`${newLandmarkobj.exception}`)
+            
+        }
+        else if (newLandmarkobj.name === newLandmark.name) {
+            // console.log("success")
+            // console.log(newLandmarkobj)
+            fetchUserLandmarks(currentUserId)
+        }
     })
     .catch(error => console.log(error))
     // debuggers
-    fetchUserLandmarks(currentUserId)
 
 })
 
