@@ -20,6 +20,9 @@ const signInBar2 = document.querySelector(".sign-in-2")
 const signInBar = document.querySelector(".sign-in-bar")
 const loginInput = document.querySelector("#login-input")
 
+const signinTab = document.querySelector("#sign-in-tab")
+const signupTab = document.querySelector("#sign-up-tab")
+
 // DOM SLAPPAGE
 
 // FETCHES
@@ -55,17 +58,18 @@ function fetchAllLandmarks() {
 // RENDER FUNCTIONS
 function setCurrentUser(userObj) {
     signInBar.hidden = true
-    signInBar2.hidden = true
+    // signInBar2.hidden = true
 
     landmarkBar.hidden = false
     imgBox.hidden = false
     landmarkForm.hidden = false
     hometownDiv.hidden = false
 
-    const h3 = document.createElement("h3")
-    h3.textContent = userObj.hometown
+    const h1 = document.createElement("h1")
+    h1.textContent = userObj.hometown
+    
 
-    hometownDiv.append(h3)
+    hometownDiv.append(h1)
     currentHometown = userObj.hometown
     currentUser = userObj.username
     currentUserId = userObj.id
@@ -293,14 +297,32 @@ loginInForm.addEventListener("submit", function (e) {
     button2.textContent = "All Landmarks"
     button2.classList.add("center")
     button2.id = "landmarks-button"
+    button2.type = "button"
 
     const button1 = document.createElement("button")
     button1.textContent = "My Landmarks"
     button1.classList.add("center")
     button1.id = "my-button"
+    button1.type = "button"
 
     hometownDiv.append(button2, button1)
     // -//
+
+})
+
+signinTab.addEventListener("click", function(e) {
+    e.preventDefault()
+    
+    loginInForm.hidden = false
+    signupForm.hidden = true
+
+})
+
+signupTab.addEventListener("click", function(e) {
+    e.preventDefault()
+    
+    loginInForm.hidden = true
+    signupForm.hidden = false
 
 })
 

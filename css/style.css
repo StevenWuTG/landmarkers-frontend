@@ -8,43 +8,106 @@
 
 .title-bar {
   grid-area: 1 / 2 / 3 / 10;
-  padding: 3 px;
-  margin: 10px 0px;
+  /* padding: 3 px;
+  margin: 10px 0px; */
 
-  border: 2px solid black ;
+  /* border: 2px solid black ; */
   /* text-align: center; */
+  -webkit-border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
+  background: #fff;
+  padding: 30px;
+  width: 90%;
+  max-width: 450px;
+  position: relative;
+  padding: 0px;
+  -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+  box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+  text-align: center;
 }
 .landmark-bar {
   grid-area: 3 / 1 / 10 / 3;
-  padding: 3 px;
+  /* padding: 3 px;
   margin: 10px 0px;
-  border: 2px solid black ;
+  border: 2px solid black ; */
+  -webkit-border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
+  background: #fff;
+  padding: 30px;
+  width: 90%;
+  max-width: 450px;
+  position: relative;
+  padding: 0px;
+  -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+  box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+  text-align: center;
 }
 .hometown-bar {
   grid-area: 3 / 4 / 4 / 8;
-  padding: 3 px;
+  /* padding: 3 px;
   margin: 10px 0px;
-  border: 2px solid black ;
+  border: 2px solid black ; */
+  -webkit-border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
+  background: #fff;
+  padding: 30px;
+  width: 90%;
+  max-width: 450px;
+  position: relative;
+  padding: 0px;
+  -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+  box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+  text-align: center;
 }
 .image-box {
   grid-area: 4 / 3 / 8 / 9;
-  padding: 3 px;
+  /* padding: 3 px;
   margin: 10px 0px;
   border: 2px solid black ;
   max-width: 100% ;
-  max-height: 100%;
+  max-height: 100%; */
+  -webkit-border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
+  background: #fff;
+  padding: 30px;
+  width: 90%;
+  max-width: 450px;
+  position: relative;
+  padding: 0px;
+  -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+  box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+  text-align: center;
 }
 .landmark-info {
   grid-area: 8 / 3 / 11 / 9;
-  padding: 3 px;
-  margin: 10px 0px;
-  border: 2px solid black ;
+  -webkit-border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
+  background: #fff;
+  padding: 30px;
+  width: 90%;
+  max-width: 450px;
+  position: relative;
+  padding: 0px;
+  -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+  box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+  text-align: center;
 }
 .landmark-form {
   grid-area: 3 / 9 / 10 / 11;
-  padding: 3 px;
+  /* padding: 3 px;
   margin: 10px 0px;
-  border: 2px solid black ;
+  border: 2px solid black ; */
+  -webkit-border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
+  background: #fff;
+  padding: 30px;
+  width: 90%;
+  max-width: 450px;
+  position: relative;
+  padding: 0px;
+  -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+  box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+  text-align: center;
 }
 
 .sign-in-bar {
@@ -91,4 +154,8 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
+}
+
+.bold {
+ font-weight: bolder;
 }

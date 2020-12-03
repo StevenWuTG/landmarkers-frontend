@@ -9,6 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link href="css/style.css" rel="stylesheet">
+  <link href="css/test_login.css" rel="stylesheet">
 </head>
 
 <body>
@@ -46,9 +47,9 @@
             <button id="landmark-submit" type="submit">Submit</button>
         </form>
 
-        <div class ="sign-in-bar">
+        <!-- <div class ="sign-in-bar">
             <div class="sign-in-2 white-background center">
-                <!-- v1  -->
+                v1 
                 <form id="new-user-form" hidden="true">
                     <h3>Create New User</h3><br>
                     Username:<input id="new-login-input" name="username" type="text"><br>
@@ -66,11 +67,36 @@
 
             </div>
             
-        </div>
+        </div> -->
+        <div class="sign-in-bar">
 
-        
-        
-       
+            <div class="wrapper fadeInDown">
+                <div id="formContent">
+                    <!-- Tabs Titles -->
+                    <h2 class="active" id="sign-in-tab"> Sign In </h2>
+                    <h2 class="inactive underlineHover" id="sign-up-tab">Sign Up </h2>
+                
+                    <!-- Login Form -->
+                    <form id="login-form">
+                        <input type="text" id="login-input" class="fadeIn first" name="login" placeholder="login">
+                        <input type="submit" class="fadeIn fourth" value="Log In">
+                    </form>
+
+                    <!-- Sign Up Form -->
+                    <form id="new-user-form" hidden="true">
+                        <input type="text" id="new-login-input" class="fadeIn first" name="login" placeholder="Username">
+                        <input type="text" id="new-hometown-input" class="fadeIn first" name="login" placeholder="Hometown">
+                        <input type="text" id="new-image-input" class="fadeIn first" name="login" placeholder="Image">
+                        <input type="text" id="new-bio-input" class="fadeIn first" name="login" placeholder="Bio">
+                        <input type="submit" class="fadeIn fourth" value="Log In">
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+            
+            
+            
     </div>
     
 </body>
