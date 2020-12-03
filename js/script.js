@@ -65,9 +65,23 @@ function setCurrentUser(userObj) {
     landmarkForm.hidden = false
     hometownDiv.hidden = false
 
+    const button2 = document.createElement("button")
+    button2.textContent = "All Landmarks"
+    button2.classList.add("center")
+    button2.id = "landmarks-button"
+    button2.type = "button"
+
+    const button1 = document.createElement("button")
+    button1.textContent = "My Landmarks"
+    button1.classList.add("center")
+    button1.id = "my-button"
+    button1.type = "button"
+
+    hometownDiv.append(button2, button1)
+
     const h1 = document.createElement("h1")
     h1.textContent = userObj.hometown
-    
+
 
     hometownDiv.append(h1)
     currentHometown = userObj.hometown
@@ -254,10 +268,15 @@ loginInForm.addEventListener("submit", function (e) {
                 renderLandmarks(currentUser.landmarks)
             }
             else {
+                alert("Username does not exist!")
                 loginInForm.hidden = true
                 signupForm.hidden = false
 
-
+                signupTab.classList.remove("inactive", "underlineHover")
+                signupTab.classList.add("active")
+            
+                signinTab.classList.add("inactive", "underlineHover")
+                signinTab.classList.remove("active")
 
             }
 
@@ -293,42 +312,56 @@ loginInForm.addEventListener("submit", function (e) {
         .catch(error => console.log(error))
 
     // NEED TO MAKE INTO NEW FUNCTION 
-    const button2 = document.createElement("button")
-    button2.textContent = "All Landmarks"
-    button2.classList.add("center")
-    button2.id = "landmarks-button"
-    button2.type = "button"
+    // const button2 = document.createElement("button")
+    // button2.textContent = "All Landmarks"
+    // button2.classList.add("center")
+    // button2.id = "landmarks-button"
+    // button2.type = "button"
 
-    const button1 = document.createElement("button")
-    button1.textContent = "My Landmarks"
-    button1.classList.add("center")
-    button1.id = "my-button"
-    button1.type = "button"
+    // const button1 = document.createElement("button")
+    // button1.textContent = "My Landmarks"
+    // button1.classList.add("center")
+    // button1.id = "my-button"
+    // button1.type = "button"
 
-    hometownDiv.append(button2, button1)
+    // hometownDiv.append(button2, button1)
     // -//
 
 })
 
-signinTab.addEventListener("click", function(e) {
+signinTab.addEventListener("click", function (e) {
     e.preventDefault()
-    
+
     loginInForm.hidden = false
     signupForm.hidden = true
 
+    signinTab.classList.add("active")
+    signinTab.classList.remove("inactive", "underlineHover")
+
+    signupTab.classList.remove("active")
+    signupTab.classList.add("inactive", "underlineHover")
+
+
 })
 
-signupTab.addEventListener("click", function(e) {
+signupTab.addEventListener("click", function (e) {
     e.preventDefault()
-    
+
     loginInForm.hidden = true
     signupForm.hidden = false
+
+    signupTab.classList.remove("inactive", "underlineHover")
+    signupTab.classList.add("active")
+
+    signinTab.classList.add("inactive", "underlineHover")
+    signinTab.classList.remove("active")
 
 })
 
 signupForm.addEventListener("submit", function (e) {
     e.preventDefault()
 
+    // debugger
     const newUser = {
         username: e.target.username.value,
         hometown: e.target.hometown.value,
@@ -345,7 +378,7 @@ signupForm.addEventListener("submit", function (e) {
         .then(resp => resp.json())
         .then(newUserObj => {
             // debugger
-            if (newUserObj.username === currentUser) {
+            if (newUserObj) {
                 setCurrentUser(newUserObj)
             }
             else if (newUserObj.error === "Unprocessable Entity") {
@@ -353,6 +386,8 @@ signupForm.addEventListener("submit", function (e) {
             }
         })
         .catch(error => console.log(error))
+
+        
 })
 
 
