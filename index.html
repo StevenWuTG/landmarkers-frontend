@@ -1,53 +1,79 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-  <meta charset="utf-8">
-  <title></title>
-  <meta name="author" content="Karina Guerra & Steven Wu">
-  <meta name="description" content="an app to check local landmarks">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <head>
+        <meta charset="utf-8">
+        <title>Landmarkers</title>
+        <meta name="author" content="Karina Guerra & Steven Wu">
+        <meta name="description" content="an app to check local landmarks">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link href="css/style.css" rel="stylesheet">
-  <link href="css/test_login.css" rel="stylesheet">
-</head>
+        <link href="css/style.css" rel="stylesheet">
+        <link href="css/test_login.css" rel="stylesheet">
+    </head>
 
-<body>
-    <div class="grid">
-        <div class = "title-bar center"> 
-            <h1>Landmarkers</h1>
-        </div>
-        <div class = "landmark-bar center" hidden="true"> 
-            <h5>List of landmarks</h5>
-        </div>
-        <div class = "hometown-bar center" hidden="true"> 
+    <body>
+        <div class="grid">
+            <div class="title-bar center">
+                <h1>Landmarkers</h1>
+            </div>
+            <div class="landmark-bar center" hidden="true">
+                <h5>List of landmarks</h5>
+            </div>
+            <div class="hometown-bar center" hidden="true">
 
-            <!-- <button id="user-button" class="center">Users</button> -->
-            <!-- <h3>Hometown</h3> -->
-        </div>
-        <div class = "image-box center" hidden="true"> 
-            
-            
-        </div>
-        <div class = "landmark-info center" hidden="true"> 
-            <h3>landmark info</h3>
-            Name: <div id="landmark-name"></div>
-            Address: <div id="landmark-address"></div>
-            Bio: <div id="landmark-bio"></div>
-            Genre: <div id="landmark-genre"></div>
-        </div>
-        <form class = "landmark-form center" hidden="true"> 
-            <h3>Landmark Form</h3>
-            <input hidden="true" name="user_id">
-            Name:<input type="text" name="name">
-            Address:<input type="text" name="address">
-            Image:<input type="text" name="image">
-            Bio:<input type="text" name="bio">
-            Genre:<input type="text" name="genre">
-            <button id="landmark-submit" type="submit">Submit</button>
-        </form>
+                <!-- <button id="user-button" class="center">Users</button> -->
+                <!-- <h3>Hometown</h3> -->
+            </div>
+            <div class="image-box center" hidden="true">
+                <div id="map"></div>
+                <!-- <script id="map-script">
+                    function initMap() {
+                        // The location of Uluru
+                        const uluru = { lat: -25.344, lng: 131.036 };
+                        // The map, centered at Uluru
+                        let map = new google.maps.Map(document.getElementById("map"), {
+                            zoom: 4,
+                            center: { lat: 42.3601, lng: -71.0589 },
+                        });
+                        // The marker, positioned at Uluru
+                        // let marker = new google.maps.Marker({
+                        //     position: { lat: 42.3601, lng: -71.0589 },
+                        //     map: map,
+                        // });
+                        
+                        addNewMarker({ lat: 42.3601, lng: -71.0589 })
+                        
+                        function addNewMarker(location) {
+                            marker = new google.maps.Marker({
+                                position: location,
+                                map: map,
+                            });
 
-        <!-- <div class ="sign-in-bar">
+                        }
+                    }
+                </script> -->
+
+            </div>
+            <div class="landmark-info center" hidden="true">
+                <h3>landmark info</h3>
+                Name: <div id="landmark-name"></div>
+                Address: <div id="landmark-address"></div>
+                Bio: <div id="landmark-bio"></div>
+                Genre: <div id="landmark-genre"></div>
+            </div>
+            <form class="landmark-form center" hidden="true">
+                <h3>Landmark Form</h3>
+                <input hidden="true" name="user_id">
+                Name:<input type="text" name="name">
+                Address:<input type="text" name="address">
+                Image:<input type="text" name="image">
+                Bio:<input type="text" name="bio">
+                Genre:<input type="text" name="genre">
+                <button id="landmark-submit" type="submit">Submit</button>
+            </form>
+
+            <!-- <div class ="sign-in-bar">
             <div class="sign-in-2 white-background center">
                 v1 
                 <form id="new-user-form" hidden="true">
@@ -68,41 +94,48 @@
             </div>
             
         </div> -->
-        <div class="sign-in-bar">
+            <div class="sign-in-bar">
 
-            <div class="wrapper fadeInDown">
-                <div id="formContent">
-                    <!-- Tabs Titles -->
-                    <h2 class="active" id="sign-in-tab"> Sign In </h2>
-                    <h2 class="inactive underlineHover" id="sign-up-tab">Sign Up </h2>
-                
-                    <!-- Login Form -->
-                    <form id="login-form">
-                        <input type="text" id="login-input" class="fadeIn first" name="login" placeholder="Username">
-                        <input type="submit" class="fadeIn fourth" value="Log In">
-                    </form>
+                <div class="wrapper fadeInDown">
+                    <div id="formContent">
+                        <!-- Tabs Titles -->
+                        <h2 class="active" id="sign-in-tab"> Sign In </h2>
+                        <h2 class="inactive underlineHover" id="sign-up-tab">Sign Up </h2>
 
-                    <!-- Sign Up Form -->
-                    <form id="new-user-form" hidden="true">
-                        <input type="text" id="new-login-input" class="fadeIn first" name="username" placeholder="Username">
-                        <input type="text" id="new-hometown-input" class="fadeIn first" name="hometown" placeholder="Hometown">
-                        <input type="text" id="new-image-input" class="fadeIn first" name="img_url" placeholder="Image">
-                        <input type="text" id="new-bio-input" class="fadeIn first" name="bio" placeholder="Bio">
-                        <input type="submit" class="fadeIn fourth" value="Sign Up">
-                    </form>
-                    
+                        <!-- Login Form -->
+                        <form id="login-form">
+                            <input type="text" id="login-input" class="fadeIn first" name="login"
+                                placeholder="Username">
+                            <input type="submit" class="fadeIn fourth" value="Log In">
+                        </form>
+
+                        <!-- Sign Up Form -->
+                        <form id="new-user-form" hidden="true">
+                            <input type="text" id="new-login-input" class="fadeIn first" name="username"
+                                placeholder="Username">
+                            <input type="text" id="new-hometown-input" class="fadeIn first" name="hometown"
+                                placeholder="Hometown">
+                            <input type="text" id="new-image-input" class="fadeIn first" name="img_url"
+                                placeholder="Image">
+                            <input type="text" id="new-bio-input" class="fadeIn first" name="bio" placeholder="Bio">
+                            <input type="submit" class="fadeIn fourth" value="Sign Up">
+                        </form>
+
+                    </div>
                 </div>
             </div>
+
+
+
         </div>
-            
-            
-            
-    </div>
-    
-</body>
+
+    </body>
 
 
-  <script defer src="js/script.js"></script>
-</body>
+    <script defer src="js/script.js"></script>
+    <script defer src="js/map.js"></script>
+    <script defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaT0W4HA3I3Yh2BC8ZM-sFcmlRXj7cXdo&callback=runApp"></script>
+    <script></script>
 
 </html>

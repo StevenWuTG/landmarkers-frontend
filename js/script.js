@@ -9,6 +9,7 @@ let currentUserObj = {}
 // DOM QUERIES 
 const landmarkBar = document.querySelector(".landmark-bar")
 const loginBtn = document.querySelector("#login-button")
+const titleBar = document.querySelector(".title-bar")
 
 const hometownDiv = document.querySelector(".hometown-bar")
 
@@ -274,7 +275,7 @@ loginInForm.addEventListener("submit", function (e) {
 
                 signupTab.classList.remove("inactive", "underlineHover")
                 signupTab.classList.add("active")
-            
+
                 signinTab.classList.add("inactive", "underlineHover")
                 signinTab.classList.remove("active")
 
@@ -387,7 +388,7 @@ signupForm.addEventListener("submit", function (e) {
         })
         .catch(error => console.log(error))
 
-        
+
 })
 
 
@@ -416,3 +417,91 @@ imgBox.addEventListener("click", function (e) {
 // fetchUsers()
 // fetchUserLandmarks()
 // fetchAllLandmarks()
+
+// Initialize and add the map
+// function initMap() {
+//     // The location of Uluru
+//     const uluru = { lat: -25.344, lng: 131.036 };
+//     // The map, centered at Uluru
+//     let map = new google.maps.Map(document.getElementById("map"), {
+//         zoom: 4,
+//         center: { lat: 42.3601, lng: -71.0589 },
+//     });
+//     // The marker, positioned at Uluru
+//     // let marker = new google.maps.Marker({
+//     //     position: { lat: 42.3601, lng: -71.0589 },
+//     //     map: map,
+//     // });
+//     addNewMarker({ lat: 42.3601, lng: -71.0589 })
+
+//     function addNewMarker(location) {
+//         marker = new google.maps.Marker({
+//             position: location,
+//             map: map,
+//         });
+
+//     }
+// }
+
+// let brookline = new google.maps.LatLng(42.3320, -71.1222)
+
+// const boston = { lat: 42.3601, lng: -71.0589 }
+
+
+// var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
+// var mapOptions = {
+//   zoom: 4,
+//   center: myLatlng
+// }
+// var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+// var marker = new google.maps.Marker({
+//     position: myLatlng,
+//     title:"Hello World!"
+// });
+
+// // To add the marker to the map, call setMap();
+// marker.setMap(map);
+// initMap()
+
+// let brookline2 = { lat: 42.3320, lng: -71.1222 }
+// // addNewMarker(brookline)
+
+
+// //Test
+// const mapScript = document.querySelector("#map-script")
+
+// function newMap(location) {
+//     mapScript.innerHTML = `
+//     function initMap() {
+//         // The location of Uluru
+//         const uluru = { lat: -25.344, lng: 131.036 };
+//         // The map, centered at Uluru
+//         let map = new google.maps.Map(document.getElementById("map"), {
+//             zoom: 4,
+//             center: { lat: 42.3601, lng: -71.0589 },
+//         });
+//         // The marker, positioned at Uluru
+//         // let marker = new google.maps.Marker({
+//         //     position: { lat: 42.3601, lng: -71.0589 },
+//         //     map: map,
+//         // });
+
+//         addNewMarker(${location})
+
+//         function addNewMarker(location) {
+//             marker = new google.maps.Marker({
+//                 position: location,
+//                 map: map,
+//             });
+
+//         }
+//     }
+//     `
+// }
+// titleBar.addEventListener("click", function(e) {
+//     e.preventDefault()
+//     console.log("Clicked")
+//     debugger
+//     newMap(brookline2)
+// })
