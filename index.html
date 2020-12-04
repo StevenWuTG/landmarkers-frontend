@@ -15,44 +15,20 @@
     <body>
         <div class="grid">
             <div class="title-bar center">
-                <h1>Landmarkers</h1>
+                <h1>Landmarkers</h1><br>
+                <form id="search-bar">
+                    <input name="search" placeholder="Input Search Here">
+                    <button type="submit">Search</button>
+                </form>
             </div>
             <div class="landmark-bar center" hidden="true">
                 <h5>List of landmarks</h5>
             </div>
             <div class="hometown-bar center" hidden="true">
 
-                <!-- <button id="user-button" class="center">Users</button> -->
-                <!-- <h3>Hometown</h3> -->
             </div>
             <div class="image-box center" hidden="true">
                 <div id="map"></div>
-                <!-- <script id="map-script">
-                    function initMap() {
-                        // The location of Uluru
-                        const uluru = { lat: -25.344, lng: 131.036 };
-                        // The map, centered at Uluru
-                        let map = new google.maps.Map(document.getElementById("map"), {
-                            zoom: 4,
-                            center: { lat: 42.3601, lng: -71.0589 },
-                        });
-                        // The marker, positioned at Uluru
-                        // let marker = new google.maps.Marker({
-                        //     position: { lat: 42.3601, lng: -71.0589 },
-                        //     map: map,
-                        // });
-                        
-                        addNewMarker({ lat: 42.3601, lng: -71.0589 })
-                        
-                        function addNewMarker(location) {
-                            marker = new google.maps.Marker({
-                                position: location,
-                                map: map,
-                            });
-
-                        }
-                    }
-                </script> -->
 
             </div>
             <div class="landmark-info center" hidden="true">
@@ -73,27 +49,6 @@
                 <button id="landmark-submit" type="submit">Submit</button>
             </form>
 
-            <!-- <div class ="sign-in-bar">
-            <div class="sign-in-2 white-background center">
-                v1 
-                <form id="new-user-form" hidden="true">
-                    <h3>Create New User</h3><br>
-                    Username:<input id="new-login-input" name="username" type="text"><br>
-                    Hometown:<input id="new-hometown-input" name="hometown" type="text"><br>
-                    Image:<input id="new-image-input" name="img_url" type="text"><br>
-                    Bio:<input id="new-bio-input" name="bio" type="text"><br>
-                    <button type="submit">Sign Up</button>
-                </form>
-
-                <form id="login-form">
-                    <h3>Login</h3>
-                    Username:<input id="login-input" name="username" type="text"><br>
-                    <button id="login-button" type="submit">login</button> 
-                </form>
-
-            </div>
-            
-        </div> -->
             <div class="sign-in-bar">
 
                 <div class="wrapper fadeInDown">
@@ -132,10 +87,10 @@
     </body>
 
 
-    <script defer src="js/script.js"></script>
-    <script defer src="js/map.js"></script>
-    <script defer src="js/geocode.js"></script>
-    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaT0W4HA3I3Yh2BC8ZM-sFcmlRXj7cXdo&callback=runApp"></script>
+    <script defer src="js/main.js"></script>
+    <!-- <script defer src="js/map.js"></script> -->
+    <!-- <script defer src="js/geocode.js"></script> -->
+    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCMZIf7DhtFbXH8I1fB6wb3dcXAB5mrOM&callback=runApp"></script>
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 

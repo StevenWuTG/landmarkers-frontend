@@ -1,17 +1,18 @@
 const mapDiv = document.getElementById('map');
 
-function displayMap() {
+function displayMap(coords) {
     const mapOptions = {
-        center: { lat: 40.7128, lng: -74.0060 },
+        center: coords,
         zoom: 10
     };
     const mapDiv = document.getElementById('map');
     return new google.maps.Map(mapDiv, mapOptions);
 }
 
-function runApp() {
+function runApp(coords) {
+    // debugger
     console.log('Maps JS API loaded');
-    const map = displayMap();
+    const map = displayMap(coords);
     const markers = addMarkers(map)
 }
 const locations = {
@@ -19,7 +20,15 @@ const locations = {
     tarongaZoo: { lat: 40.75027, lng: -74.00013 },
 }
 
-const userLocations = {operaHouse: { lat: 40.73062, lng: -73.98298 }}
+// const userLocations = {{lat: 40.73062, lng: -73.98298 }, {lat: 40.73062, lng: -73.98298 }}
+
+let userLocations = {}
+
+currentUser.landmarks.forEach(landmark => {
+    // let landmark.name = landmark.coords.slice(:lat, :lng)
+    userLocations[landmark.name] = landmark.coord.slice(:lat, :lng)
+    
+});
 
 function addMarkers(map) {
     const markers = [];

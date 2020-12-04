@@ -4,6 +4,7 @@ let currentUser = 0
 let currentHometown = 0
 let currentUserId = 0
 let currentUserObj = {}
+let userLocations = {}
 
 
 // DOM QUERIES 
@@ -83,11 +84,17 @@ function setCurrentUser(userObj) {
     const h1 = document.createElement("h1")
     h1.textContent = userObj.hometown
 
-
     hometownDiv.append(h1)
+
     currentHometown = userObj.hometown
     currentUser = userObj.username
     currentUserId = userObj.id
+    currentUserObj = userObj
+
+    fetchLandmarkCoord()
+    geocode(currentHometown)
+    // debugger
+    runApp(hometownCoords)
 }
 
 function renderLandmarks(landmarksArray) {
@@ -192,57 +199,6 @@ landmarkForm.addEventListener("submit", function (e) {
 
 })
 
-// v1 
-// signInBar2.addEventListener("submit", function (e) {
-//     e.preventDefault()
-//     const imageInput = document.querySelector("#image-input")
-//     const bioInput = document.querySelector("#bio-input")
-
-//     // debugger
-//     currentUser = loginInput.value
-//     currentHometown = hometownInput.value
-//     // signInBar.classList.remove("black-background")
-//     // signInBar2.innerHTML = ""
-//     hometownDiv.innerHTML = `<h3> ${currentHometown}</h3>`
-
-//     const button2 = document.createElement("button")
-//     button2.textContent = "All Landmarks"
-//     button2.classList.add("center")
-//     button2.id = "landmarks-button"
-
-//     const button1 = document.createElement("button")
-//     button1.textContent = "My Landmarks"
-//     button1.classList.add("center")
-//     button1.id = "my-button"
-
-//     hometownDiv.append(button2,button1) 
-
-//     const newUser = {
-//         username: loginInput.value,
-//         hometown: hometownInput.value,
-//         img_url: imageInput.value,
-//         bio: bioInput.value
-//     }
-//     fetch("http://localhost:3000/api/v1/users", {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify(newUser)
-//     })
-//     .then(resp => resp.json())
-//     .then(newUserObj => {
-//         // debugger
-//         if (newUserObj.username === currentUser) {
-//             setCurrentUser(newUserObj)
-//         }
-//         else if (newUserObj.error === "Unprocessable Entity") {
-//             alert("Username already exists!")
-//         }
-//     })
-//     .catch(error => console.log(error))
-// })
-
 // v2
 const loginInForm = document.querySelector("#login-form")
 const signupForm = document.querySelector("#new-user-form")
@@ -280,53 +236,8 @@ loginInForm.addEventListener("submit", function (e) {
                 signinTab.classList.remove("active")
 
             }
-
-
-            // debugger
-            // usersArr.forEach(user => {
-            //     if (user.username === currentUser) {
-            //         setCurrentUser(user)
-            //         renderLandmarks(user.landmarks)
-            //     }
-            //     else {
-            //         const div = document.createElement("div")
-            //         div.classList.add("signup-form")
-            //         div.innerHTML = `
-            //         <h3>Create User Form</h3><br>
-            //         Username:<input id="login-input" name="username" type="text"><br>
-            //         Hometown:<input id="hometown-input" name="hometown" type="text"><br>
-            //         Image:<input id="image-input" name="img_url" type="text"><br>
-            //         Bio:<input id="bio-input" name="bio" type="text"><br>
-            //         <button id="signup-button">Sign Up</button></br>
-            //         `
-            //         signInBar2.append(div)
-            //         const nameInput = document.querySelector("#login-input")
-            //         nameInput.value = currentUser
-
-            //         div.addEventListener("submit", handleSignup)
-
-            //         // signInBar2.append( h3, nameInput, hometownInput, imageInput, bioInput )
-            //     }
-
-            // });
         })
         .catch(error => console.log(error))
-
-    // NEED TO MAKE INTO NEW FUNCTION 
-    // const button2 = document.createElement("button")
-    // button2.textContent = "All Landmarks"
-    // button2.classList.add("center")
-    // button2.id = "landmarks-button"
-    // button2.type = "button"
-
-    // const button1 = document.createElement("button")
-    // button1.textContent = "My Landmarks"
-    // button1.classList.add("center")
-    // button1.id = "my-button"
-    // button1.type = "button"
-
-    // hometownDiv.append(button2, button1)
-    // -//
 
 })
 
@@ -391,17 +302,22 @@ signupForm.addEventListener("submit", function (e) {
 
 })
 
-
-
 hometownDiv.addEventListener("click", function (e) {
     e.preventDefault()
     if (e.target.id === "landmarks-button") {
         fetchAllLandmarks()
+        testerFunction()
     }
     else if (e.target.id === "my-button") {
         fetchUserLandmarks(currentUserId)
     }
 })
+
+// function renderLocation () {
+//     for (let i = 0; i < userLocations.length; i++) {
+//         displayMap()
+//     }
+// }
 
 imgBox.addEventListener("click", function (e) {
     e.preventDefault()
@@ -411,97 +327,146 @@ imgBox.addEventListener("click", function (e) {
     }
 })
 
-// INITIALIZER
+//////////Map.js/////////////
+// let mapDiv = document.getElementById('map');
+
+function displayMap(coords) {
+    const mapOptions = {
+        center: coords,
+        zoom: 10
+    };
+    const mapDiv = document.getElementById('map');
+    return new google.maps.Map(mapDiv, mapOptions);
+}
+
+function runApp(coords) {
+    // debugger
+    console.log('Maps JS API loaded');
+    const map = displayMap(coords);
+    const markers = addMarkers(map)
+}
+const locations = {
+    operaHouse: { lat: 40.73062, lng: -73.98298 },
+    tarongaZoo: { lat: 40.75027, lng: -74.00013 },
+}
+
+// const userLocations = {{lat: 40.73062, lng: -73.98298 }, {lat: 40.73062, lng: -73.98298 }}
 
 
-// fetchUsers()
-// fetchUserLandmarks()
-// fetchAllLandmarks()
 
-// Initialize and add the map
-// function initMap() {
-//     // The location of Uluru
-//     const uluru = { lat: -25.344, lng: 131.036 };
-//     // The map, centered at Uluru
-//     let map = new google.maps.Map(document.getElementById("map"), {
-//         zoom: 4,
-//         center: { lat: 42.3601, lng: -71.0589 },
-//     });
-//     // The marker, positioned at Uluru
-//     // let marker = new google.maps.Marker({
-//     //     position: { lat: 42.3601, lng: -71.0589 },
-//     //     map: map,
-//     // });
-//     addNewMarker({ lat: 42.3601, lng: -71.0589 })
+function addMarkers(map) {
+    let userLocations = { stevenHouse: { lat: 40.585665, lng: -73.984832 } }
 
-//     function addNewMarker(location) {
-//         marker = new google.maps.Marker({
-//             position: location,
-//             map: map,
-//         });
+    const markers = [];
+    // setCurrentUser(currentUserObj)
+    fetch(`http://localhost:3000/api/v1/landmarks`)
+        .then(resp => resp.json())
+        .then(landmarkArr => {
+            // debugger
+            landmarkArr.forEach(landmark => {
+                if (landmark.user.username === currentUser) {
+                    // debugger
+                    userLocations[landmark.name] = landmark.coord
+                }
+            })
+        })
 
-//     }
-// }
+    for (const location in userLocations) {
+        const markerOptions = {
+            map: map,
+            position: userLocations[location],
+        }
+        const marker = new google.maps.Marker(markerOptions);
+        markers.push(marker);
+    }
+    // userLocations.forEach(landmark => {
+    //     const markerOptions = {
+    //         map: map,
+    //         position: userLocations[landmark],
+    //     }
+    //     const marker = new google.maps.Marker(markerOptions);
+    //     markers.push(marker);
+    // })
+    return markers;
+}
 
-// let brookline = new google.maps.LatLng(42.3320, -71.1222)
+function fetchLandmarkCoord() {
+    fetch(`http://localhost:3000/api/v1/landmarks`)
+        .then(resp => resp.json())
+        .then(landmarkArr => {
+            // debugger
+            landmarkArr.forEach(landmark => {
+                if (landmark.user.username === currentUser) {
+                    // debugger
+                    userLocations[landmark.name] = landmark.coord
+                }
+            })
+        })
+}
+//////////End of Map.js//////
 
-// const boston = { lat: 42.3601, lng: -71.0589 }
+///////////Geocode.js/////////
 
+const searchBar = document.querySelector("#search-bar")
 
-// var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
-// var mapOptions = {
-//   zoom: 4,
-//   center: myLatlng
-// }
-// var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+let hometownCoords = {}
+let test5 = "2543 W 16th ST Brooklyn"
+geocode(test5)
+function geocode(location) {
+    axios.get("https://maps.googleapis.com/maps/api/geocode/json?", {
+        params: {
+            address: location,
+            key: 'AIzaSyDCMZIf7DhtFbXH8I1fB6wb3dcXAB5mrOM'
+        }
+    })
+        .then(response => {
+            // console.log(response)
+            // debugger
+            let result = response.data.results[0].geometry.location
+            // createCoords(variable)
+            // debugger
+            console.log(result)
+            hometownCoords = result
+        })
+        .catch(error => {
+            console.log(error)
+        })
+}
 
-// var marker = new google.maps.Marker({
-//     position: myLatlng,
-//     title:"Hello World!"
-// });
+searchBar.addEventListener("submit", function (e) {
+    e.preventDefault()
+    // debugger
+    const search = e.target.search.value
+    geocode(search)
+})
 
-// // To add the marker to the map, call setMap();
-// marker.setMap(map);
-// initMap()
+/////////End of Geocode.js/////
 
-// let brookline2 = { lat: 42.3320, lng: -71.1222 }
-// // addNewMarker(brookline)
+function testerFunction() {
+    const mapCenter = hometownCoords
+    const map = displayMap();
+    const markers = addMarkers(map)
+    function displayMap() {
+        const mapOptions = {
+            center: mapCenter,
+            zoom: 10
+        };
+        const mapDiv = document.getElementById('map');
+        mapDiv.innerHTML = ""
+        return new google.maps.Map(mapDiv, mapOptions);
+    }
 
-
-// //Test
-// const mapScript = document.querySelector("#map-script")
-
-// function newMap(location) {
-//     mapScript.innerHTML = `
-//     function initMap() {
-//         // The location of Uluru
-//         const uluru = { lat: -25.344, lng: 131.036 };
-//         // The map, centered at Uluru
-//         let map = new google.maps.Map(document.getElementById("map"), {
-//             zoom: 4,
-//             center: { lat: 42.3601, lng: -71.0589 },
-//         });
-//         // The marker, positioned at Uluru
-//         // let marker = new google.maps.Marker({
-//         //     position: { lat: 42.3601, lng: -71.0589 },
-//         //     map: map,
-//         // });
-
-//         addNewMarker(${location})
-
-//         function addNewMarker(location) {
-//             marker = new google.maps.Marker({
-//                 position: location,
-//                 map: map,
-//             });
-
-//         }
-//     }
-//     `
-// }
-// titleBar.addEventListener("click", function(e) {
-//     e.preventDefault()
-//     console.log("Clicked")
-//     debugger
-//     newMap(brookline2)
-// })
+    function addMarkers(map) {
+        const markers = [];
+        // setCurrentUser(currentUserObj)
+        for (const location in userLocations) {
+            const markerOptions = {
+                map: map,
+                position: userLocations[location],
+            }
+            const marker = new google.maps.Marker(markerOptions);
+            markers.push(marker);
+        }
+        return markers;
+    }
+}
