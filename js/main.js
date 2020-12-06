@@ -431,28 +431,29 @@ function addMarkers(markersArray, centerCoord) {
 
 }
 
-function runApp() {
-    console.log('Maps JS API loaded');
-    const map = displayMap(hometownCoords);
-}
+// function runApp() {
+//     console.log('Maps JS API loaded');
+//     const map = displayMap(hometownCoords);
+// }
 
-function displayMap(coord) {
-    const mapOptions = {
-        center: coord,
-        zoom: 14
-    };
-    const mapDiv = document.getElementById('map');
-    return new google.maps.Map(mapDiv, mapOptions);
-}
+// function displayMap(coord) {
+//     const mapOptions = {
+//         center: coord,
+//         zoom: 14
+//     };
+//     const mapDiv = document.getElementById('map');
+//     return new google.maps.Map(mapDiv, mapOptions);
+// }
 
 function initMap() {
     const newMap = new google.maps.Map(document.getElementById("map"), {
-        zoom: 8,
-        center: hometownCoords,
+        zoom: 10,
+        center: {lat: 40.7128, lng: -74.0060}
     });
     const geocoder = new google.maps.Geocoder();
-    debugger
-    searchBar.addEventListener("submit", () => {
+    
+    searchBar.addEventListener("submit", (event) => {
+        event.preventDefault()
         geocodeAddress(geocoder, newMap);
     });
 }
@@ -463,11 +464,11 @@ function geocodeAddress(geocoder, resultsMap) {
     geocoder.geocode({ address: address }, (results, status) => {
         debugger
         if (status === "OK") {
-            // resultsMap.setCenter(results[0].geometry.location);
-            // new google.maps.Marker({
-            //     map: resultsMap,
-            //     position: results[0].geometry.location,
-            // });
+            resultsMap.setCenter(results[0].geometry.location);
+            new google.maps.Marker({
+                map: resultsMap,
+                position: results[0].geometry.location,
+            });
             console.log("Geocode success")
         } else {
             alert("Geocode was not successful for the following reason: " + status);
