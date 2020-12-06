@@ -386,14 +386,22 @@ function geocodeSearchBar(location) {
 
 
 /* Submit on Search Bar -> Passes input to Geocode Function */
-// searchBar.addEventListener("submit", function (e) {
-//     e.preventDefault()
-//     // debugger
-//     const search = e.target.search.value
-//     let searchCoord = {}
-//     searchCoord[search] = geocodeSearchBar(search)
-//     addMarkers(searchCoord)
-// })
+searchBar.addEventListener("submit", function (e) {
+    e.preventDefault()
+    // debugger
+    const search = e.target.search.value
+    initMap()
+    const geocoder = new google.maps.Geocoder();
+    if (searchMarkers.length === 0) {
+        geocodeAddress(geocoder, newMap);
+    }
+    else {
+        searchMarkers[0].setMap(null)
+        searchMarkers = []
+        geocodeAddress(geocoder, newMap);
+    }
+
+})
 
 ///////////////////////// END OF GEOCODE.JS ////////////////////////
 
@@ -428,47 +436,30 @@ function addMarkers(markersArray, centerCoord) {
         // debugger
         return markers;
     }
-
 }
-
-// function runApp() {
-//     console.log('Maps JS API loaded');
-//     const map = displayMap(hometownCoords);
-// }
-
-// function displayMap(coord) {
-//     const mapOptions = {
-//         center: coord,
-//         zoom: 14
-//     };
-//     const mapDiv = document.getElementById('map');
-//     return new google.maps.Map(mapDiv, mapOptions);
-// }
+let newMap;
+let searchMarkers = []
 
 function initMap() {
-    const newMap = new google.maps.Map(document.getElementById("map"), {
+    newMap = new google.maps.Map(document.getElementById("map"), {
         zoom: 10,
-        center: {lat: 40.7128, lng: -74.0060}
-    });
-    const geocoder = new google.maps.Geocoder();
-    
-    searchBar.addEventListener("submit", (event) => {
-        event.preventDefault()
-        geocodeAddress(geocoder, newMap);
+        center: { lat: 40.7128, lng: -74.0060 }
     });
 }
 
 function geocodeAddress(geocoder, resultsMap) {
+
     const address = document.getElementById("search-input").value;
 
     geocoder.geocode({ address: address }, (results, status) => {
-        debugger
+
         if (status === "OK") {
             resultsMap.setCenter(results[0].geometry.location);
-            new google.maps.Marker({
+            const marker = new google.maps.Marker({
                 map: resultsMap,
                 position: results[0].geometry.location,
             });
+            searchMarkers.push(marker)
             console.log("Geocode success")
         } else {
             alert("Geocode was not successful for the following reason: " + status);
