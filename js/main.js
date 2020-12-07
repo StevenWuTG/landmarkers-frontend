@@ -81,6 +81,9 @@ function setCurrentUser(userObj) {
     imgBox.hidden = false
     // landmarkForm.hidden = true
     hometownDiv.hidden = false
+    const h1 = document.createElement("h1")
+    h1.textContent = userObj.hometown
+    hometownDiv.append(h1)
 
     //Creating Buttons & Format Hometown Bar -> My Landmarks Button & All Landmarks 
     const button2 = document.createElement("button")
@@ -97,9 +100,6 @@ function setCurrentUser(userObj) {
 
     hometownDiv.append(button2, button1)
 
-    const h1 = document.createElement("h1")
-    h1.textContent = userObj.hometown
-    hometownDiv.append(h1)
 
     //Set Session State
     currentHometown = userObj.hometown
@@ -114,9 +114,10 @@ function setCurrentUser(userObj) {
 /* renderLandmarks -> Displays Landmarks as a list on the Landmark Bar */
 function renderLandmarks(landmarksArray) {
     landmarkBar.innerHTML = ""
-    const h5 = document.createElement("h5")
-    h5.textContent = "My landmarks"
-    landmarkBar.append(h5)
+    const h3 = document.createElement("h3")
+    h3.textContent = "My landmarks"
+    h3.classList.add("bold")
+    landmarkBar.append(h3)
 
     landmarksArray.forEach(landmark => {
         const li = document.createElement("li")
@@ -156,9 +157,9 @@ function renderLandmarkInfo(id) {
 function renderAllLandmarks(allLandmarks) {
 
     landmarkBar.innerHTML = ""
-    const h5 = document.createElement("h5")
-    h5.textContent = "All landmarks"
-    landmarkBar.append(h5)
+    const h3 = document.createElement("h3")
+    h3.textContent = "All landmarks"
+    landmarkBar.append(h3)
     let allLandmarkCoords = {}
 
     allLandmarks.forEach(landmark => {

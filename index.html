@@ -12,25 +12,35 @@
         <link href="css/test_login.css" rel="stylesheet">
         <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     </head>
+    <nav class="top-bar">
+        <div class="small-logo">Landmarkers</div>
+        <div class="search-container">
+            <form id="search-bar" class="search-bar">
+                <input id="search-input" name="search" placeholder="Input Search Here">
+                <button id="submit-search" type="submit">Search</svg></button>
+            </form>
+        </div>
+    </nav>
 
-    <body id="body">
-        <div class="grid">
-            <div class="title-bar center">
+    <body id="body" class="body">
+        <div>
+            <!-- <div class="title-bar center">
                 <h1>Landmarkers</h1><br>
-                <form id="search-bar">
+                 <form id="search-bar">
                     <input id="search-input" name="search" placeholder="Input Search Here">
                     <button id="submit-search" type="submit">Search</button>
-                </form>
-            </div>
-            <div class="landmark-bar center" hidden="true">
-                <h5>List of landmarks</h5>
-            </div>
+                </form> -->
             <div class="hometown-bar center" hidden="true">
-
             </div>
-            <div class="image-box center" hidden="true">
-                <div id="map"></div>
 
+            <div class="flex-container wrap">
+                <div class="landmark-bar flex-item wrap " hidden="true">
+                    <h3 class="bold">List of landmarks</h3>
+                </div>
+                <div class="image-box flex-item wrap" hidden="true">
+                    <div id="map"></div>
+
+                </div>
             </div>
             <div class="info-form center" hidden="true">
                 <div class="landmark-info center" hidden="true">
