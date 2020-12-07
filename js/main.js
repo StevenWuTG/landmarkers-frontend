@@ -6,6 +6,8 @@ let currentUserId = 0
 let currentUserObj = {}
 let userLocations = {}
 let hometownCoords = {}
+let searchResultCoords = {}
+let searchLandmarkId = 0
 
 
 //////////////////// DOM ELEMENTS /////////////////////////
@@ -108,7 +110,7 @@ function setCurrentUser(userObj) {
     currentUserObj = userObj
 
     //Functions to run after creating page format/layout
-    fetchLandmarkCoord() //Fetch User Landmarks & Adds to Global UserLocations Array
+    fetchLandmarkCoords() //Fetch User Landmarks & Adds to Global UserLocations Array
 }
 
 /* renderLandmarks -> Displays Landmarks as a list on the Landmark Bar */
@@ -187,7 +189,6 @@ landmarkBar.addEventListener("click", function (e) {
 /* Submit on Landmark Form -> Add Landmark to DB & to LI List of My Landmarks */
 landmarkForm.addEventListener("submit", function (e) {
     e.preventDefault()
-
     const newLandmark = {
         user_id: parseInt(currentUserId),
         name: e.target.name.value,
@@ -196,25 +197,49 @@ landmarkForm.addEventListener("submit", function (e) {
         bio: e.target.bio.value,
         genre: e.target.genre.value
     }
-    // debugger
+
     fetch("http://localhost:3000/api/v1/landmarks", {
+        method: 'POST', // or 'PUT'
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newLandmark),
+    })
+        .then(response => response.json())
+        .then(newLandmarkObj => {
+            console.log('Success:', newLandmarkObj);
+            searchLandmarkId = newLandmarkObj.id
+            if (newLandmarkObj.name === newLandmark.name) {
+                fetchUserLandmarks(currentUserId)
+                createCoord()
+                fetchLandmarkCoords()
+                // addMarkers(userLocations,newLandmarkObj.coord.slice(lat, lng))
+                debugger
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        })
+})
+
+function createCoord() {
+    const newCoords = {
+        lat: searchMarkers[0].position.lat(),
+        lng: searchMarkers[0].position.lng(),
+        landmark_id: searchLandmarkId
+    }
+    fetch("http://localhost:3000/api/v1/coords", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(newLandmark)
+        body: JSON.stringify(newCoords)
     })
         .then(resp => resp.json())
-        .then(newLandmarkobj => {
-            if (newLandmarkobj.error) {
-                console.log(`${newLandmarkobj.exception}`)
-            }
-            else if (newLandmarkobj.name === newLandmark.name) {
-                fetchUserLandmarks(currentUserId)
-            }
+        .then(newCoordObj => {
+            console.log(newCoordObj)
         })
-        .catch(error => console.log(error))
-})
+}
 
 /* <---------- LOGIN & SIGNUP FORMS V2 ------------> */
 /* Click to LogIn/SignIn -> Fetch All Users to check for User & Set Session State andd Render User Landmarks */
@@ -325,7 +350,8 @@ hometownDiv.addEventListener("click", function (e) {
     else if (e.target.id === "my-button") {
         infoForm.hidden = true
         landmarkInfo.hidden = true
-        fetchUserLandmarks(currentUserId)
+        // fetchUserLandmarks(currentUserId)
+        fetchLandmarkCoords()
         addMarkers(userLocations, hometownCoords)
     }
 })
@@ -340,11 +366,11 @@ hometownDiv.addEventListener("click", function (e) {
 ///////////////////////// MAP JS /////////////////////////////
 
 /* Fetch Users Landmark & Adds to userLLocation Array */
-function fetchLandmarkCoord() {
+function fetchLandmarkCoords() {
     fetch(`http://localhost:3000/api/v1/landmarks`)
         .then(resp => resp.json())
         .then(landmarkArr => {
-            // debugger
+            userLocations = {}
             landmarkArr.forEach(landmark => {
                 if (landmark.user.username === currentUser) {
                     // debugger
@@ -462,6 +488,7 @@ function addMarkers(markersArray, centerCoord) {
                     .then(resp => resp.json())
                     .then(landmarkArr => landmarkArr.forEach(landmark => {
                         if (landmark.name == locationName) {
+                            landmarkForm.hidden = true
                             renderLandmarkInfo(landmark.id)
                         }
                     }))
