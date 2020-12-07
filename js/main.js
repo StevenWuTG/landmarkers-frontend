@@ -454,6 +454,33 @@ function addMarkers(markersArray, centerCoord) {
     const map = displayMap();
     const markers = addMarkers(map)
 
+    map.addListener("click", (e) => {
+        if (searchMarkers.length === 0) {
+            placeMarkerAndPanTo(e.latLng, map);
+        }
+        else {
+            searchMarkers[0].setMap(null)
+            searchMarkers = []
+            placeMarkerAndPanTo(e.latLng, map)
+        }
+    })
+
+    function placeMarkerAndPanTo(latLng, map) {
+        const newMarker = new google.maps.Marker({
+            position: latLng,
+            map: map,
+        })
+        // searchMarkers = []
+        searchMarkers.push(newMarker)
+        // debugger
+        // addMarkers(searchMarkers, latLng)
+        map.panTo(latLng)
+        newMarker.addListener("click", () => {
+            infoForm.hidden = false
+            landmarkForm.hidden = false
+        })
+    }
+
     function displayMap() {
         const mapOptions = {
             center: mapCenter,
@@ -462,8 +489,9 @@ function addMarkers(markersArray, centerCoord) {
         const mapDiv = document.getElementById('map');
         mapDiv.innerHTML = ""
         return new google.maps.Map(mapDiv, mapOptions);
-
     }
+
+
 
     function addMarkers(map) {
         const markers = [];
@@ -506,6 +534,8 @@ function addMarkers(markersArray, centerCoord) {
         landmarkInfo.hidden = true
     })
 }
+
+//////////// MAP WHEN FIRST SIGNING IN & SEARCH /////////////////////////
 let currentMap;
 let searchMarkers = []
 
@@ -514,14 +544,43 @@ function initMap() {
     currentMap = new google.maps.Map(document.getElementById("map"), {
         zoom: 10,
         center: mapCenter
-    });
+    })
+
     currentMap.addListener("rightclick", () => {
         // debugger
         currentMap.setZoom(5);
         infoForm.hidden = true
         landmarkForm.hidden = true
-
     })
+
+    currentMap.addListener("click", (e) => {
+        if (searchMarkers.length === 0) {
+            placeMarkerAndPanTo(e.latLng, currentMap);
+        }
+        else {
+            searchMarkers[0].setMap(null)
+            searchMarkers = []
+            placeMarkerAndPanTo(e.latLng, currentMap)
+        }
+    })
+
+    function placeMarkerAndPanTo(latLng, map) {
+        const newMarker = new google.maps.Marker({
+            position: latLng,
+            map: map,
+        })
+        // searchMarkers = []
+        searchMarkers.push(newMarker)
+        // debugger
+        // addMarkers(searchMarkers, latLng)
+        currentMap.panTo(latLng)
+        newMarker.addListener("click", () => {
+            infoForm.hidden = false
+            landmarkForm.hidden = false
+        })
+    }
+    
+
 }
 
 function geocodeAddress(geocoder, resultsMap) {
