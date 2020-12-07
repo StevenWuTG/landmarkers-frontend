@@ -8,6 +8,7 @@ let userLocations = {}
 let hometownCoords = {}
 let searchResultCoords = {}
 let searchLandmarkId = 0
+let currentLandmarkObj = {}
 
 
 //////////////////// DOM ELEMENTS /////////////////////////
@@ -19,7 +20,7 @@ const imgBox = document.querySelector(".image-box")
 const infoForm = document.querySelector(".info-form")
 const landmarkForm = document.querySelector(".landmark-form")
 const landmarkInfo = document.querySelector(".landmark-info")
-
+const buttonContainer = document.querySelector("#button-container")
 /* Log In / Sign Up */
 const signInBar2 = document.querySelector(".sign-in-2")
 const signInBar = document.querySelector(".sign-in-bar")
@@ -138,18 +139,48 @@ function renderLandmarkInfo(id) {
     const bio = document.querySelector("#landmark-bio")
     const genre = document.querySelector("#landmark-genre")
     const img = document.querySelector("#landmark-img")
-
+    const img_url = document.querySelector("#landmark-image-url")
 
     //Fecth Specific Landmark to render info in appropiate places
     fetch(`http://localhost:3000/api/v1/landmarks/${id}`)
         .then(resp => resp.json())
         .then(landmarkObj => {
-            name.textContent = landmarkObj.name
-            address.textContent = landmarkObj.address
-            bio.textContent = landmarkObj.bio
-            genre.textContent = landmarkObj.genre
+            name.value = landmarkObj.name
+            address.value = landmarkObj.address
+            bio.value = landmarkObj.bio
+            genre.value = landmarkObj.genre
             img.src = landmarkObj.img_url
             img.alt = landmarkObj.name
+            img_url.value = landmarkObj.img_url
+            currentLandmarkObj = landmarkObj
+
+            if (landmarkObj.user.id !== currentUserId) {
+                name.disabled = true
+                address.disabled = true
+                bio.disabled = true
+                genre.disabled = true
+                img_url.hidden = true
+                buttonContainer.innerHTML = ""
+            }
+            else {
+                buttonContainer.innerHTML = ""
+
+                const editButton = document.createElement("button")
+                const deleteButton = document.createElement("button")
+
+                img_url.hidden = false
+                name.disabled = false
+                address.disabled = false
+                bio.disabled = false
+                genre.disabled = false
+
+                editButton.textContent = "Edit"
+                editButton.id = "edit-button"
+                deleteButton.id = "delete-button"
+                deleteButton.textContent = "Delete"
+
+                buttonContainer.append(editButton, deleteButton)
+            }
         })
     // imgBox.innerHTML = ""
     // imgBox.append(img)
@@ -178,6 +209,57 @@ function renderAllLandmarks(allLandmarks) {
 
 
 //////////////////// EVENT LISTENER /////////////////////////
+buttonContainer.addEventListener("click", function (e) {
+    if (e.target.id === "edit-button") {
+        // debugger
+        const name = landmarkInfo.querySelector("#landmark-name")
+        const address = landmarkInfo.querySelector("#landmark-address")
+        const bio = landmarkInfo.querySelector("#landmark-bio")
+        const genre = landmarkInfo.querySelector("#landmark-genre")
+        const img_url = landmarkInfo.querySelector("#landmark-image-url")
+
+        const updatedLandmarkObj = {
+            name: name.value,
+            address: address.value, 
+            bio: bio.value,
+            genre: genre.value,
+            img_url: img_url.value
+        }
+
+        fetch(`http://localhost:3000/api/v1/landmarks/${currentLandmarkObj.id}`, {
+            method: 'PATCH', // or 'PUT'
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedLandmarkObj),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+    }
+    else if (e.target.id === "delete-button") {
+
+        fetch(`http://localhost:3000/api/v1/landmarks/${currentLandmarkObj.id}`, {
+            method: 'DELETE', // or 'PUT'
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                // debugger
+                delete userLocations[currentLandmarkObj.name]
+                fetchUserLandmarks(currentUserId)
+                addMarkers(userLocations, hometownCoords)
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+})
 
 /* CLick on LI Landmark in LandmarkBar -> Populate Landmark Info */
 landmarkBar.addEventListener("click", function (e) {
@@ -350,7 +432,7 @@ hometownDiv.addEventListener("click", function (e) {
     else if (e.target.id === "my-button") {
         infoForm.hidden = true
         landmarkInfo.hidden = true
-        // fetchUserLandmarks(currentUserId)
+        fetchUserLandmarks(currentUserId)
         fetchLandmarkCoords()
         addMarkers(userLocations, hometownCoords)
     }
@@ -433,6 +515,7 @@ searchBar.addEventListener("submit", function (e) {
     e.preventDefault()
     infoForm.hidden = true
     landmarkInfo.hidden = true
+    buttonContainer.innerHTML = ""
     // debugger
     initMap()
     const geocoder = new google.maps.Geocoder();
@@ -476,6 +559,7 @@ function addMarkers(markersArray, centerCoord) {
         // addMarkers(searchMarkers, latLng)
         map.panTo(latLng)
         newMarker.addListener("click", () => {
+            buttonContainer.innerHTML = ""
             infoForm.hidden = false
             landmarkForm.hidden = false
         })
@@ -504,11 +588,14 @@ function addMarkers(markersArray, centerCoord) {
             }
             const marker = new google.maps.Marker(markerOptions);
             const infowindow = new google.maps.InfoWindow({
-                content: contentString = `<h4 class="bold" id="location-header">${location}</h1>`,
+                content: contentString = `
+                <h4 class="bold" id="location-header">${location}</h1> <br>
+                `,
                 maxWidth: 300
             })
             marker.setMap(map)
             marker.addListener("click", () => {
+                console.log("clicked")
                 map.setZoom(15);
                 map.setCenter(marker.getPosition());
                 infowindow.open(map, marker);
@@ -579,7 +666,7 @@ function initMap() {
             landmarkForm.hidden = false
         })
     }
-    
+
 
 }
 

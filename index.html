@@ -15,7 +15,8 @@
     </head>
     
     <nav class="top-bar">
-        <div class="small-logo">Landmarkers</div>
+        <div class="center-title">Landmarkers</div>
+        
         <div class="search-container">
             <form id="search-bar" class="search-bar">
                 <input id="search-input" name="search" placeholder="Input Search Here">
@@ -45,14 +46,15 @@
                 </div>
             </div>
             <div class="info-form center" hidden="true">
-                <div class="landmark-info center" hidden="true">
+                <form class="landmark-info" hidden="true">
                     <h3>landmark info</h3>
-                    Name: <div id="landmark-name"></div>
-                    Address: <div id="landmark-address"></div>
-                    Bio: <div id="landmark-bio"></div>
-                    Genre: <div id="landmark-genre"></div>
+                    Name: <input id="landmark-name"></input> <br>
+                    Genre: <input id="landmark-genre"></input> <br>
+                    Address: <input size="40" maxlength="40" id="landmark-address"></input> <br>
+                    Bio: <input size="50" maxlength="50" id="landmark-bio"></input> <br>
+                    Image: <input id="landmark-image-url" hidden="true"></input> <br>
                     <img id="landmark-img" class="landmark-image" src="">
-                </div>
+                </form>
 
                 <form class="landmark-form center" hidden="true">
                     <h3>Landmark Form</h3>
@@ -64,6 +66,9 @@
                     Genre:<input type="text" name="genre">
                     <button id="landmark-submit" type="submit">Submit</button>
                 </form>
+                <div id="button-container">
+
+                </div>
             </div>
             <div class="sign-in-bar">
 
