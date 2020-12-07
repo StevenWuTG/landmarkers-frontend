@@ -14,6 +14,7 @@ const landmarkBar = document.querySelector(".landmark-bar")
 const hometownDiv = document.querySelector(".hometown-bar")
 const imgBox = document.querySelector(".image-box")
 
+const infoForm = document.querySelector(".info-form")
 const landmarkForm = document.querySelector(".landmark-form")
 const landmarkInfo = document.querySelector(".landmark-info")
 
@@ -58,6 +59,16 @@ function fetchAllLandmarks() {
         })
 }
 
+// function findLandmarks() {
+//     fetch(`http://localhost:3000/api/v1/landmarks`)
+//         .then(resp => resp.json())
+//         .then(landmarkArr => landmarkArr.forEach(landmark => {
+//             if (landmark.name == locationName) {
+//                 renderLandmarkInfo(landmark.id)
+//             }
+//         }))
+// }
+
 ////////////////////// END OF FETCHES ////////////////////////
 
 ////////////////// RENDER FUNCITONS /////////////////////////
@@ -68,7 +79,7 @@ function setCurrentUser(userObj) {
     // signInBar2.hidden = true
     landmarkBar.hidden = false
     imgBox.hidden = false
-    landmarkForm.hidden = false
+    // landmarkForm.hidden = true
     hometownDiv.hidden = false
 
     //Creating Buttons & Format Hometown Bar -> My Landmarks Button & All Landmarks 
@@ -117,13 +128,14 @@ function renderLandmarks(landmarksArray) {
 
 /* renderLandmarkInfo-> Displays Landmarks Info at the bottom after clicking li landmark */
 function renderLandmarkInfo(id) {
+    infoForm.hidden = false
     landmarkInfo.hidden = false
     const name = document.querySelector("#landmark-name")
     const address = document.querySelector("#landmark-address")
     const bio = document.querySelector("#landmark-bio")
     const genre = document.querySelector("#landmark-genre")
-    const img = document.createElement("img")
-    img.classList.add("landmark-image")
+    const img = document.querySelector("#landmark-img")
+
 
     //Fecth Specific Landmark to render info in appropiate places
     fetch(`http://localhost:3000/api/v1/landmarks/${id}`)
@@ -136,8 +148,8 @@ function renderLandmarkInfo(id) {
             img.src = landmarkObj.img_url
             img.alt = landmarkObj.name
         })
-    imgBox.innerHTML = ""
-    imgBox.append(img)
+    // imgBox.innerHTML = ""
+    // imgBox.append(img)
 }
 
 /* renderAllLandmarks-> Displays all landmarks as a list on the Landmark Bar */
@@ -305,19 +317,23 @@ signupForm.addEventListener("submit", function (e) {
 hometownDiv.addEventListener("click", function (e) {
     e.preventDefault()
     if (e.target.id === "landmarks-button") {
+        infoForm.hidden = true
+        landmarkInfo.hidden = true
         fetchAllLandmarks()
     }
     else if (e.target.id === "my-button") {
+        infoForm.hidden = true
+        landmarkInfo.hidden = true
         fetchUserLandmarks(currentUserId)
         addMarkers(userLocations, hometownCoords)
     }
 })
 
-imgBox.addEventListener("click", function (e) {
-    e.preventDefault()
-    if (e.target.tagName === "li") {
-    }
-})
+// imgBox.addEventListener("click", function (e) {
+//     e.preventDefault()
+//     if (e.target.tagName === "li") {
+//     }
+// })
 ////////////////////// END OF EVENT LISTENER //////////////////
 
 ///////////////////////// MAP JS /////////////////////////////
@@ -388,17 +404,18 @@ function geocodeSearchBar(location) {
 /* Submit on Search Bar -> Passes input to Geocode Function */
 searchBar.addEventListener("submit", function (e) {
     e.preventDefault()
+    infoForm.hidden = true
+    landmarkInfo.hidden = true
     // debugger
-    const search = e.target.search.value
     initMap()
     const geocoder = new google.maps.Geocoder();
     if (searchMarkers.length === 0) {
-        geocodeAddress(geocoder, newMap);
+        geocodeAddress(geocoder, currentMap);
     }
     else {
         searchMarkers[0].setMap(null)
         searchMarkers = []
-        geocodeAddress(geocoder, newMap);
+        geocodeAddress(geocoder, currentMap);
     }
 
 })
@@ -418,33 +435,65 @@ function addMarkers(markersArray, centerCoord) {
         const mapDiv = document.getElementById('map');
         mapDiv.innerHTML = ""
         return new google.maps.Map(mapDiv, mapOptions);
+
     }
 
     function addMarkers(map) {
         const markers = [];
         // setCurrentUser(currentUserObj)
         for (const location in markersArray) {
-            // debugger
+            let locationName = location
             const markerOptions = {
                 map: map,
                 position: markersArray[location],
             }
             const marker = new google.maps.Marker(markerOptions);
-            // markers.push(marker);
+            const infowindow = new google.maps.InfoWindow({
+                content: contentString = `<h4 class="bold" id="location-header">${location}</h1>`,
+                maxWidth: 300
+            })
             marker.setMap(map)
+            marker.addListener("click", () => {
+                map.setZoom(15);
+                map.setCenter(marker.getPosition());
+                infowindow.open(map, marker);
+                fetch(`http://localhost:3000/api/v1/landmarks`)
+                    .then(resp => resp.json())
+                    .then(landmarkArr => landmarkArr.forEach(landmark => {
+                        if (landmark.name == locationName) {
+                            renderLandmarkInfo(landmark.id)
+                        }
+                    }))
+            })
+            // markers.push(marker);
         }
         // debugger
         return markers;
     }
+
+    map.addListener("rightclick", function (event) {
+        map.setZoom(10);
+        map.setCenter(mapCenter)
+        infoForm.hidden = true
+        landmarkInfo.hidden = true
+    })
 }
-let newMap;
+let currentMap;
 let searchMarkers = []
 
 function initMap() {
-    newMap = new google.maps.Map(document.getElementById("map"), {
+    mapCenter = { lat: 40.7128, lng: -74.0060 }
+    currentMap = new google.maps.Map(document.getElementById("map"), {
         zoom: 10,
-        center: { lat: 40.7128, lng: -74.0060 }
+        center: mapCenter
     });
+    currentMap.addListener("rightclick", () => {
+        // debugger
+        currentMap.setZoom(5);
+        infoForm.hidden = true
+        landmarkForm.hidden = true
+
+    })
 }
 
 function geocodeAddress(geocoder, resultsMap) {
@@ -460,6 +509,13 @@ function geocodeAddress(geocoder, resultsMap) {
                 position: results[0].geometry.location,
             });
             searchMarkers.push(marker)
+            marker.addListener("click", () => {
+                currentMap.setZoom(15);
+                currentMap.setCenter(marker.getPosition());
+                infoForm.hidden = false
+                landmarkForm.hidden = false
+
+            })
             console.log("Geocode success")
         } else {
             alert("Geocode was not successful for the following reason: " + status);

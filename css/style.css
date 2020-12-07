@@ -78,7 +78,22 @@
   box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
   text-align: center;
 }
-.landmark-info {
+/* .landmark-info {
+  grid-area: 8 / 3 / 11 / 9;
+  -webkit-border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
+  background: #fff;
+  padding: 30px;
+  width: 90%;
+  max-width: 450px;
+  position: relative;
+  padding: 0px;
+  -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+  box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+  text-align: center;
+} */
+
+.info-form {
   grid-area: 8 / 3 / 11 / 9;
   -webkit-border-radius: 10px 10px 10px 10px;
   border-radius: 10px 10px 10px 10px;
@@ -92,11 +107,9 @@
   box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
   text-align: center;
 }
-.landmark-form {
-  grid-area: 3 / 9 / 10 / 11;
-  /* padding: 3 px;
-  margin: 10px 0px;
-  border: 2px solid black ; */
+
+/* .landmark-form {
+  grid-area: 8 / 3 / 11 / 9;
   -webkit-border-radius: 10px 10px 10px 10px;
   border-radius: 10px 10px 10px 10px;
   background: #fff;
@@ -108,7 +121,7 @@
   -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
   box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
   text-align: center;
-}
+} */
 
 .sign-in-bar {
   grid-area: 3 / 1 / 11 / 11;

@@ -32,24 +32,27 @@
                 <div id="map"></div>
 
             </div>
-            <div class="landmark-info center" hidden="true">
-                <h3>landmark info</h3>
-                Name: <div id="landmark-name"></div>
-                Address: <div id="landmark-address"></div>
-                Bio: <div id="landmark-bio"></div>
-                Genre: <div id="landmark-genre"></div>
-            </div>
-            <form class="landmark-form center" hidden="true">
-                <h3>Landmark Form</h3>
-                <input hidden="true" name="user_id">
-                Name:<input type="text" name="name">
-                Address:<input type="text" name="address">
-                Image:<input type="text" name="image">
-                Bio:<input type="text" name="bio">
-                Genre:<input type="text" name="genre">
-                <button id="landmark-submit" type="submit">Submit</button>
-            </form>
+            <div class="info-form center" hidden="true">
+                <div class="landmark-info center" hidden="true">
+                    <h3>landmark info</h3>
+                    Name: <div id="landmark-name"></div>
+                    Address: <div id="landmark-address"></div>
+                    Bio: <div id="landmark-bio"></div>
+                    Genre: <div id="landmark-genre"></div>
+                    <img id="landmark-img" class="landmark-image" src="">
+                </div>
 
+                <form class="landmark-form center" hidden="true">
+                    <h3>Landmark Form</h3>
+                    <input hidden="true" name="user_id">
+                    Name:<input type="text" name="name">
+                    Address:<input type="text" name="address">
+                    Image:<input type="text" name="image">
+                    Bio:<input type="text" name="bio">
+                    Genre:<input type="text" name="genre">
+                    <button id="landmark-submit" type="submit">Submit</button>
+                </form>
+            </div>
             <div class="sign-in-bar">
 
                 <div class="wrapper fadeInDown">
@@ -92,9 +95,9 @@
     <!-- <script defer src="js/map.js"></script> -->
     <!-- <script defer src="js/geocode.js"></script> -->
     <!-- <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCMZIf7DhtFbXH8I1fB6wb3dcXAB5mrOM"></script> -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCMZIf7DhtFbXH8I1fB6wb3dcXAB5mrOM&callback=initMap&libraries=&v=weekly"
-    defer
-  ></script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCMZIf7DhtFbXH8I1fB6wb3dcXAB5mrOM&callback=initMap&libraries=&v=weekly"
+        defer></script>
 
     <script async defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
