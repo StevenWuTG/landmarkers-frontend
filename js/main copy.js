@@ -15,7 +15,7 @@ let currentLandmarkObj = {}
 const titleBar = document.querySelector(".title-bar")
 const landmarkBar = document.querySelector(".landmark-bar")
 const hometownDiv = document.querySelector(".hometown-bar")
-const mapBox = document.querySelector(".map-box")
+const imgBox = document.querySelector(".image-box")
 
 const infoForm = document.querySelector(".info-form")
 const landmarkForm = document.querySelector(".landmark-form")
@@ -81,7 +81,7 @@ function setCurrentUser(userObj) {
     signInBar.hidden = true
     // signInBar2.hidden = true
     landmarkBar.hidden = false
-    mapBox.hidden = false
+    imgBox.hidden = false
     // landmarkForm.hidden = true
     hometownDiv.hidden = false
     const h1 = document.createElement("h1")
@@ -182,8 +182,8 @@ function renderLandmarkInfo(id) {
                 buttonContainer.append(editButton, deleteButton)
             }
         })
-    // mapBox.innerHTML = ""
-    // mapBox.append(img)
+    // imgBox.innerHTML = ""
+    // imgBox.append(img)
 }
 
 /* renderAllLandmarks-> Displays all landmarks as a list on the Landmark Bar */
@@ -438,7 +438,7 @@ hometownDiv.addEventListener("click", function (e) {
     }
 })
 
-// mapBox.addEventListener("click", function (e) {
+// imgBox.addEventListener("click", function (e) {
 //     e.preventDefault()
 //     if (e.target.tagName === "li") {
 //     }

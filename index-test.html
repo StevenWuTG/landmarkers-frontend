@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <title>Landmarkers</title>
+        <meta name="author" content="Karina Guerra & Steven Wu">
+        <meta name="description" content="an app to check local landmarks">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link href="css/style.css" rel="stylesheet">
+        <link href="css/test_login.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    </head>
+
+    
+
+    <body class="body grid">
+        <div class="avatar-bar">avatar bar </div>
+        <div class="top-bar center-title">Landmarkers </div>
+        <div class="search-container"> 
+            <form id="search-bar" class="search-bar">
+                <input id="search-input" name="search" placeholder="Input Search Here">
+                <button id="submit-search" type="submit"><i class="fa fa-search"></i></svg></button>
+            </form>
+        </div>
+        <div class="landmark-bar"> landmark bar </div>
+        <div class="hometown-bar center">hometown bar </div>
+        <div class="info-bar"> info bar</div>
+        <div class="map-box">map box </div>
+        <div class="footer-bar">
+             footer bar
+        </div>
+        <div class ="div9"></div>
+        <div class ="div10"></div>
+        
+
+    </body>
+
+
+    <script defer src="js/main.js"></script>
+    <!-- <script defer src="js/map.js"></script> -->
+    <!-- <script defer src="js/geocode.js"></script> -->
+    <!-- <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCMZIf7DhtFbXH8I1fB6wb3dcXAB5mrOM"></script> -->
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCMZIf7DhtFbXH8I1fB6wb3dcXAB5mrOM&callback=initMap&libraries=&v=weekly"
+        defer></script>
+
+    <script async defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+</html>
