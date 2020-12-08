@@ -10,31 +10,116 @@
 
         <link href="css/style.css" rel="stylesheet">
         <link href="css/test_login.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     </head>
 
-    
+
 
     <body class="body grid">
-        <div class="avatar-bar">avatar bar </div>
+        <div class="avatar-bar">
+            <image class="avatar" hidden="true"></image>
+        </div>
         <div class="top-bar center-title">Landmarkers </div>
-        <div class="search-container"> 
-            <form id="search-bar" class="search-bar">
+
+        <div class="search-container">
+            <form id="search-bar" class="search-bar" hidden="true">
                 <input id="search-input" name="search" placeholder="Input Search Here">
                 <button id="submit-search" type="submit"><i class="fa fa-search"></i></svg></button>
             </form>
         </div>
-        <div class="landmark-bar"> landmark bar </div>
-        <div class="hometown-bar center">hometown bar </div>
-        <div class="info-bar"> info bar</div>
-        <div class="map-box">map box </div>
-        <div class="footer-bar">
-             footer bar
+        <div class="landmark-bar" hidden="true">
+
+             <div class="landmark-bar-list" hidden="true"></div>
+
+             <form class="user-info" hidden="true">
+                Username:<input name="username" id="edit-username"></input><br>
+                Hometown:<input name="hometown" id="edit-hometown"></input><br>
+                Image:<input name="img_url" id="edit-image"></input><br>
+                Bio:<input name="bio" id="edit-bio"></input><br>
+
+                <div id="user-buttons">
+                   <button id="user-edit" name="edit">Edit</button>
+                   <button id="user-delete" name="delete">Delete</button> <br>
+                   <button id="delete-confirm" name="delete" hidden="true">*DELETE*</button>
+                </div>
+            </div>
+            
+        </form>
+        <div class="hometown-bar center" hidden="true"></div>
+        <div class="info-bar" hidden="true"> 
+            <form class="landmark-info" hidden="true">
+                <h1>Landmark info:</h1>
+                Name: <input id="landmark-name"></input> <br>
+                Genre: <input id="landmark-genre"></input> <br>
+                Address: <input size="30" maxlength="30" id="landmark-address"></input> <br>
+                Bio: <input size="30" maxlength="30" id="landmark-bio"></input> <br>
+                Image: <input id="landmark-img-url" hidden="true"></input> <br>
+                <img id="landmark-img" class="landmark-image" src="">
+            </form>
+            
+            <form class="landmark-form center" hidden="true">
+                <h3>Landmark Form</h3>
+                <input hidden="true" name="user_id">
+                Name:<input type="text" id= "landmark-name" name="name">
+                Address:<input type="text" id= "landmark-address" name="address">
+                Image:<input type="text" id= "landmark-img-url" name="image">
+                Bio:<input type="text" id= "landmark-bio" name="bio">
+                Genre:<input type="text" id= "landmark-genre" name="genre">
+                <button id="landmark-submit" type="submit">Submit</button>
+            </form>
+            <div id="button-container" hidden= "true">
+                <button id="landmark-edit" name="edit">Edit</button>
+                <button id="landmark-delete" name="delete">Delete</button> <br>
+                <button id="delete-confirm" name="delete" hidden="true">*DELETE*</button>
+
+            </div>
         </div>
-        <div class ="div9"></div>
-        <div class ="div10"></div>
-        
+
+        <div class="map-box map-box-bg">
+            <div id="map" hidden="true">
+
+            </div>
+
+            <div class="sign-in-bar">
+
+                <div class="wrapper fadeInDown">
+                    <div id="formContent">
+                        <!-- Tabs Titles -->
+                        <h2 class="active" id="sign-in-tab"> Sign In </h2>
+                        <h2 class="inactive underlineHover" id="sign-up-tab">Sign Up </h2>
+
+                        <!-- Login Form -->
+                        <form id="login-form">
+                            <input type="text" id="login-input" class="fadeIn first" name="login"
+                                placeholder="Username">
+                            <input type="submit" class="fadeIn fourth" value="Log In">
+                        </form>
+
+                        <!-- Sign Up Form -->
+                        <form id="new-user-form" hidden="true">
+                            <input type="text" id="new-login-input" class="fadeIn first" name="username"
+                                placeholder="Username">
+                            <input type="text" id="new-hometown-input" class="fadeIn first" name="hometown"
+                                placeholder="Hometown">
+                            <input type="text" id="new-image-input" class="fadeIn first" name="img_url"
+                                placeholder="Image">
+                            <input type="text" id="new-bio-input" class="fadeIn first" name="bio" placeholder="Bio">
+                            <input type="submit" class="fadeIn fourth" value="Sign Up">
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bar">
+            footer bar
+        </div>
+        <div class="div9"></div>
+        <div class="div10"></div>
+
 
     </body>
 

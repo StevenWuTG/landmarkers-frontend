@@ -14,18 +14,25 @@ let currentLandmarkObj = {}
 //////////////////// DOM ELEMENTS /////////////////////////
 const titleBar = document.querySelector(".title-bar")
 const landmarkBar = document.querySelector(".landmark-bar")
+const landmarkBarList = document.querySelector(".landmark-bar-list")
 const hometownDiv = document.querySelector(".hometown-bar")
 const mapBox = document.querySelector(".map-box")
+const mainMap = document.querySelector("#map")
 
-const infoForm = document.querySelector(".info-form")
+const infoForm = document.querySelector(".info-bar")
 const landmarkForm = document.querySelector(".landmark-form")
 const landmarkInfo = document.querySelector(".landmark-info")
 const buttonContainer = document.querySelector("#button-container")
+const searchBar = document.querySelector("#search-bar")
+const avatarImg = document.querySelector(".avatar")
+const userButtons = landmarkBar.querySelector("#user-buttons")
+const userInfo = document.querySelector(".user-info")
 /* Log In / Sign Up */
 const signInBar2 = document.querySelector(".sign-in-2")
 const signInBar = document.querySelector(".sign-in-bar")
 const loginInput = document.querySelector("#login-input")
 const loginBtn = document.querySelector("#login-button")
+
 
 const signinTab = document.querySelector("#sign-in-tab")
 const signupTab = document.querySelector("#sign-up-tab")
@@ -79,9 +86,13 @@ function fetchAllLandmarks() {
 /* SetCurrentUser -> Loads after logging in or signing in */
 function setCurrentUser(userObj) {
     signInBar.hidden = true
-    // signInBar2.hidden = true
+    searchBar.hidden = false
     landmarkBar.hidden = false
+    landmarkBarList.hidden = false
+    userInfo.hidden = true
     mapBox.hidden = false
+    mapBox.classList.remove("map-box-bg")
+    mainMap.hidden = false
     // landmarkForm.hidden = true
     hometownDiv.hidden = false
     const h1 = document.createElement("h1")
@@ -110,23 +121,27 @@ function setCurrentUser(userObj) {
     currentUserId = userObj.id
     currentUserObj = userObj
 
+    avatarImg.src = userObj.img_url
+    avatarImg.alt = userObj.username
+    avatarImg.hidden = false
+
     //Functions to run after creating page format/layout
     fetchLandmarkCoords() //Fetch User Landmarks & Adds to Global UserLocations Array
 }
 
 /* renderLandmarks -> Displays Landmarks as a list on the Landmark Bar */
 function renderLandmarks(landmarksArray) {
-    landmarkBar.innerHTML = ""
+    landmarkBarList.innerHTML = ""
     const h3 = document.createElement("h3")
     h3.textContent = "My landmarks"
     h3.classList.add("bold")
-    landmarkBar.append(h3)
+    landmarkBarList.append(h3)
 
     landmarksArray.forEach(landmark => {
         const li = document.createElement("li")
         li.textContent = landmark.name
         li.dataset.id = landmark.id
-        landmarkBar.append(li)
+        landmarkBarList.append(li)
     })
 }
 
@@ -139,7 +154,7 @@ function renderLandmarkInfo(id) {
     const bio = document.querySelector("#landmark-bio")
     const genre = document.querySelector("#landmark-genre")
     const img = document.querySelector("#landmark-img")
-    const img_url = document.querySelector("#landmark-image-url")
+    const img_url = document.querySelector("#landmark-img-url")
 
     //Fecth Specific Landmark to render info in appropiate places
     fetch(`http://localhost:3000/api/v1/landmarks/${id}`)
@@ -160,26 +175,29 @@ function renderLandmarkInfo(id) {
                 bio.disabled = true
                 genre.disabled = true
                 img_url.hidden = true
-                buttonContainer.innerHTML = ""
+                buttonContainer.hidden = true
             }
             else {
-                buttonContainer.innerHTML = ""
-
-                const editButton = document.createElement("button")
-                const deleteButton = document.createElement("button")
-
+                
                 img_url.hidden = false
                 name.disabled = false
                 address.disabled = false
                 bio.disabled = false
                 genre.disabled = false
+                
+                
+                // buttonContainer.innerHTML = ""
+                // const editButton = document.createElement("button")
+                // const deleteButton = document.createElement("button")
+                // editButton.textContent = "Edit"
+                // editButton.id = "edit-button"
+                // deleteButton.id = "delete-button"
+                // deleteButton.textContent = "Delete"
 
-                editButton.textContent = "Edit"
-                editButton.id = "edit-button"
-                deleteButton.id = "delete-button"
-                deleteButton.textContent = "Delete"
 
-                buttonContainer.append(editButton, deleteButton)
+                // buttonContainer.append(editButton, deleteButton)
+
+                buttonContainer.hidden = false
             }
         })
     // mapBox.innerHTML = ""
@@ -189,10 +207,10 @@ function renderLandmarkInfo(id) {
 /* renderAllLandmarks-> Displays all landmarks as a list on the Landmark Bar */
 function renderAllLandmarks(allLandmarks) {
 
-    landmarkBar.innerHTML = ""
+    landmarkBarList.innerHTML = ""
     const h3 = document.createElement("h3")
     h3.textContent = "All landmarks"
-    landmarkBar.append(h3)
+    landmarkBarList.append(h3)
     let allLandmarkCoords = {}
 
     allLandmarks.forEach(landmark => {
@@ -201,7 +219,7 @@ function renderAllLandmarks(allLandmarks) {
         const li = document.createElement("li")
         li.textContent = landmark.name
         li.dataset.id = landmark.id
-        landmarkBar.append(li)
+        landmarkBarList.append(li)
     })
     addMarkers(allLandmarkCoords, hometownCoords)
 }
@@ -209,23 +227,121 @@ function renderAllLandmarks(allLandmarks) {
 
 
 //////////////////// EVENT LISTENER /////////////////////////
+userButtons.addEventListener("click", function (e) {
+    e.preventDefault()
+    if (e.target.id === "user-edit") {
+        const username = landmarkBar.querySelector("#edit-username")
+        const hometown = landmarkBar.querySelector("#edit-hometown")
+        const bio = landmarkBar.querySelector("#edit-bio")
+        const img_url = landmarkBar.querySelector("#edit-image")
+        
+        const updatedUserObj = {
+            username: username.value,
+            hometown: hometown.value,
+            bio: bio.value,
+            img_url: img_url.value
+        }
+        debugger
+        
+        fetch(`http://localhost:3000/api/v1/users/${currentUserObj.id}`, {
+            method: 'PATCH', // or 'PUT'
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedUserObj),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                setCurrentUser(data)
+                hometownCoords = geocodeHometown(currentHometown)
+
+                renderLandmarks(currentUserObj.landmarks)
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+    }
+    else if (e.target.id === "user-delete") {
+        e.target.hidden = true
+        const deleteConfirm = document.querySelector("#delete-confirm")
+        deleteConfirm.hidden = false
+        alert("YOU WILL PERMANENTLY DELETE YOUR ACCOUNT")
+        
+    }
+    else if (e.target.id === "delete-confirm"){
+
+        
+        fetch(`http://localhost:3000/api/v1/users/${currentUserObj.id}`, {
+            method: 'DELETE', // or 'PUT'
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);                        // debugger
+                    window.location.reload();
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        const deleteConfirm = document.querySelector("#delete-confirm")
+        deleteConfirm.hidden = false
+                    
+    }
+})
+
+
+avatarImg.addEventListener("click", function (e) {
+    e.preventDefault()
+    // debugger
+    landmarkBarList.hidden = true
+    userButtons.hidden = false 
+    userInfo.hidden = false
+
+    userInfo.username.value = currentUserObj.username
+    userInfo.hometown.value= currentUserObj.hometown
+    userInfo.img_url.value = currentUserObj.img_url
+    userInfo.bio.value = currentUserObj.bio
+
+    // const form = document.createElement("form")
+
+    // form.innerHTML = `
+    //     Username:<input name="username" id="edit-username" placeholder="${currentUserObj.username}"></input><br>
+    //     Hometown:<input name="hometown" id="edit-hometown" placeholder="${currentUserObj.hometown}"></input><br>
+    //     Image:<input name="img_url" id="edit-image" placeholder="${currentUserObj.img_url}"></input><br>
+    //     Bio:<input name="bio" id="edit-bio" placeholder="${currentUserObj.bio}"></input><br>
+    //     <div id="user-buttons">
+    //             <button name="edit">Edit</button>
+    //             <button name="delete">Delete</button>
+    //     </div>
+
+
+    // `
+   
+    // landmarkBar.append(form)
+    
+
+})
+
+
 buttonContainer.addEventListener("click", function (e) {
-    if (e.target.id === "edit-button") {
-        // debugger
+    if (e.target.id === "landmark-edit") {
+        debugger
         const name = landmarkInfo.querySelector("#landmark-name")
         const address = landmarkInfo.querySelector("#landmark-address")
         const bio = landmarkInfo.querySelector("#landmark-bio")
         const genre = landmarkInfo.querySelector("#landmark-genre")
-        const img_url = landmarkInfo.querySelector("#landmark-image-url")
-
+        const img_url = landmarkInfo.querySelector("#landmark-img-url")
+        
         const updatedLandmarkObj = {
             name: name.value,
-            address: address.value, 
+            address: address.value,
             bio: bio.value,
             genre: genre.value,
             img_url: img_url.value
         }
-
+        
+        // debugger
         fetch(`http://localhost:3000/api/v1/landmarks/${currentLandmarkObj.id}`, {
             method: 'PATCH', // or 'PUT'
             headers: {
@@ -242,7 +358,15 @@ buttonContainer.addEventListener("click", function (e) {
             });
 
     }
-    else if (e.target.id === "delete-button") {
+    else if (e.target.id === "landmark-delete") {
+        debugger
+        e.target.hidden = true
+        const deleteConfirm = buttonContainer.querySelector("#delete-confirm")
+        deleteConfirm.hidden = false
+        alert("YOU WILL PERMANENTLY DELETE YOUR LANDMARK")
+
+    }
+    else if (e.target.id === "delete-confirm") {
 
         fetch(`http://localhost:3000/api/v1/landmarks/${currentLandmarkObj.id}`, {
             method: 'DELETE', // or 'PUT'
@@ -252,13 +376,22 @@ buttonContainer.addEventListener("click", function (e) {
                 console.log('Success:', data);
                 // debugger
                 delete userLocations[currentLandmarkObj.name]
+                setCurrentUser(currentUserObj)
                 fetchUserLandmarks(currentUserId)
                 addMarkers(userLocations, hometownCoords)
+                
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
+
+            const deleteButton = document.querySelector("#landmark-delete")
+            deleteButton.hidden = false
+            e.target.hidden= true
+            infoForm.hidden = true
+
     }
+
 })
 
 /* CLick on LI Landmark in LandmarkBar -> Populate Landmark Info */
@@ -271,6 +404,7 @@ landmarkBar.addEventListener("click", function (e) {
 /* Submit on Landmark Form -> Add Landmark to DB & to LI List of My Landmarks */
 landmarkForm.addEventListener("submit", function (e) {
     e.preventDefault()
+    landmarkForm.hidden = true
     const newLandmark = {
         user_id: parseInt(currentUserId),
         name: e.target.name.value,
@@ -412,6 +546,7 @@ signupForm.addEventListener("submit", function (e) {
         .then(newUserObj => {
             if (newUserObj) {
                 setCurrentUser(newUserObj)
+                hometownCoords = geocodeHometown(currentHometown)
             }
             else if (newUserObj.error === "Unprocessable Entity") {
                 alert("Username already exists!")
@@ -425,11 +560,17 @@ signupForm.addEventListener("submit", function (e) {
 hometownDiv.addEventListener("click", function (e) {
     e.preventDefault()
     if (e.target.id === "landmarks-button") {
+        landmarkBarList.hidden = false 
+        userInfo.hidden = true
         infoForm.hidden = true
+        userButtons.hidden = true
         landmarkInfo.hidden = true
         fetchAllLandmarks()
     }
     else if (e.target.id === "my-button") {
+        userInfo.hidden = true
+        landmarkBarList.hidden = false 
+        userButtons.hidden = true
         infoForm.hidden = true
         landmarkInfo.hidden = true
         fetchUserLandmarks(currentUserId)
@@ -464,7 +605,7 @@ function fetchLandmarkCoords() {
 ////////////////////// END OF MAP.JS ///////////////////////////////
 
 ///////////////////////// GEOCODE.JS ///////////////////////////////
-const searchBar = document.querySelector("#search-bar")
+
 
 // let hometownCoords = geocode(currentHometown)
 // let test5 = currentHometown
@@ -515,7 +656,7 @@ searchBar.addEventListener("submit", function (e) {
     e.preventDefault()
     infoForm.hidden = true
     landmarkInfo.hidden = true
-    buttonContainer.innerHTML = ""
+    buttonContainer.hidden = true
     // debugger
     initMap()
     const geocoder = new google.maps.Geocoder();
@@ -559,7 +700,7 @@ function addMarkers(markersArray, centerCoord) {
         // addMarkers(searchMarkers, latLng)
         map.panTo(latLng)
         newMarker.addListener("click", () => {
-            buttonContainer.innerHTML = ""
+            buttonContainer.hidden = true
             infoForm.hidden = false
             landmarkForm.hidden = false
         })
