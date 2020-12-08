@@ -178,14 +178,14 @@ function renderLandmarkInfo(id) {
                 buttonContainer.hidden = true
             }
             else {
-                
+
                 img_url.hidden = false
                 name.disabled = false
                 address.disabled = false
                 bio.disabled = false
                 genre.disabled = false
-                
-                
+
+
                 // buttonContainer.innerHTML = ""
                 // const editButton = document.createElement("button")
                 // const deleteButton = document.createElement("button")
@@ -234,7 +234,7 @@ userButtons.addEventListener("click", function (e) {
         const hometown = landmarkBar.querySelector("#edit-hometown")
         const bio = landmarkBar.querySelector("#edit-bio")
         const img_url = landmarkBar.querySelector("#edit-image")
-        
+
         const updatedUserObj = {
             username: username.value,
             hometown: hometown.value,
@@ -242,7 +242,7 @@ userButtons.addEventListener("click", function (e) {
             img_url: img_url.value
         }
         debugger
-        
+
         fetch(`http://localhost:3000/api/v1/users/${currentUserObj.id}`, {
             method: 'PATCH', // or 'PUT'
             headers: {
@@ -268,25 +268,25 @@ userButtons.addEventListener("click", function (e) {
         const deleteConfirm = document.querySelector("#delete-confirm")
         deleteConfirm.hidden = false
         alert("YOU WILL PERMANENTLY DELETE YOUR ACCOUNT")
-        
-    }
-    else if (e.target.id === "delete-confirm"){
 
-        
+    }
+    else if (e.target.id === "delete-confirm") {
+
+
         fetch(`http://localhost:3000/api/v1/users/${currentUserObj.id}`, {
             method: 'DELETE', // or 'PUT'
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);                        // debugger
+                window.location.reload();
             })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Success:', data);                        // debugger
-                    window.location.reload();
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
+            .catch((error) => {
+                console.error('Error:', error);
+            });
         const deleteConfirm = document.querySelector("#delete-confirm")
         deleteConfirm.hidden = false
-                    
+
     }
 })
 
@@ -295,11 +295,11 @@ avatarImg.addEventListener("click", function (e) {
     e.preventDefault()
     // debugger
     landmarkBarList.hidden = true
-    userButtons.hidden = false 
+    userButtons.hidden = false
     userInfo.hidden = false
 
     userInfo.username.value = currentUserObj.username
-    userInfo.hometown.value= currentUserObj.hometown
+    userInfo.hometown.value = currentUserObj.hometown
     userInfo.img_url.value = currentUserObj.img_url
     userInfo.bio.value = currentUserObj.bio
 
@@ -317,9 +317,9 @@ avatarImg.addEventListener("click", function (e) {
 
 
     // `
-   
+
     // landmarkBar.append(form)
-    
+
 
 })
 
@@ -332,7 +332,7 @@ buttonContainer.addEventListener("click", function (e) {
         const bio = landmarkInfo.querySelector("#landmark-bio")
         const genre = landmarkInfo.querySelector("#landmark-genre")
         const img_url = landmarkInfo.querySelector("#landmark-img-url")
-        
+
         const updatedLandmarkObj = {
             name: name.value,
             address: address.value,
@@ -340,7 +340,7 @@ buttonContainer.addEventListener("click", function (e) {
             genre: genre.value,
             img_url: img_url.value
         }
-        
+
         // debugger
         fetch(`http://localhost:3000/api/v1/landmarks/${currentLandmarkObj.id}`, {
             method: 'PATCH', // or 'PUT'
@@ -379,16 +379,16 @@ buttonContainer.addEventListener("click", function (e) {
                 setCurrentUser(currentUserObj)
                 fetchUserLandmarks(currentUserId)
                 addMarkers(userLocations, hometownCoords)
-                
+
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
 
-            const deleteButton = document.querySelector("#landmark-delete")
-            deleteButton.hidden = false
-            e.target.hidden= true
-            infoForm.hidden = true
+        const deleteButton = document.querySelector("#landmark-delete")
+        deleteButton.hidden = false
+        e.target.hidden = true
+        infoForm.hidden = true
 
     }
 
@@ -430,12 +430,14 @@ landmarkForm.addEventListener("submit", function (e) {
                 createCoord()
                 fetchLandmarkCoords()
                 // addMarkers(userLocations,newLandmarkObj.coord.slice(lat, lng))
-                debugger
+                // debugger
+                infoForm.hidden = true
             }
         })
         .catch((error) => {
             console.error('Error:', error);
         })
+    e.target.reset()
 })
 
 function createCoord() {
@@ -560,7 +562,7 @@ signupForm.addEventListener("submit", function (e) {
 hometownDiv.addEventListener("click", function (e) {
     e.preventDefault()
     if (e.target.id === "landmarks-button") {
-        landmarkBarList.hidden = false 
+        landmarkBarList.hidden = false
         userInfo.hidden = true
         infoForm.hidden = true
         userButtons.hidden = true
@@ -569,7 +571,7 @@ hometownDiv.addEventListener("click", function (e) {
     }
     else if (e.target.id === "my-button") {
         userInfo.hidden = true
-        landmarkBarList.hidden = false 
+        landmarkBarList.hidden = false
         userButtons.hidden = true
         infoForm.hidden = true
         landmarkInfo.hidden = true
