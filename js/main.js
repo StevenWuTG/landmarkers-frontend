@@ -95,8 +95,10 @@ function setCurrentUser(userObj) {
     mainMap.hidden = false
     // landmarkForm.hidden = true
     hometownDiv.hidden = false
+    hometownDiv.innerHTML = ""
     const h1 = document.createElement("h1")
     h1.textContent = userObj.hometown
+    
     hometownDiv.append(h1)
 
     //Creating Buttons & Format Hometown Bar -> My Landmarks Button & All Landmarks 
@@ -705,6 +707,7 @@ function addMarkers(markersArray, centerCoord) {
             buttonContainer.hidden = true
             infoForm.hidden = false
             landmarkForm.hidden = false
+            landmarkInfo.hidden = true
         })
     }
 
